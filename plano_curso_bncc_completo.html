@@ -1,0 +1,2199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano de Curso 826 – BNCC – Objetos de Conhecimento Completos</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f13;
+    --surface: #17171f;
+    --surface2: #1e1e28;
+    --border: #2a2a38;
+    --text: #e8e8f0;
+    --muted: #7a7a9a;
+    --accent1: #6c63ff;
+    --linguagens: #7c4dff;
+    --mat: #00bcd4;
+    --ciencias: #4caf50;
+    --humanas: #ff7043;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+  header {
+    padding: 40px 40px 28px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(108,99,255,0.06) 0%, transparent 60%);
+  }
+  .header-chip {
+    display: inline-block;
+    background: rgba(108,99,255,0.15);
+    border: 1px solid rgba(108,99,255,0.4);
+    color: #a89fff;
+    font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 20px; margin-bottom: 14px;
+  }
+  header h1 { font-family: 'Syne', sans-serif; font-size: clamp(22px,3.5vw,36px); font-weight: 800; line-height: 1.15; margin-bottom: 8px; }
+  header h1 span { color: var(--accent1); }
+  header p { color: var(--muted); font-size: 13px; max-width: 500px; line-height: 1.6; }
+
+  .year-nav { display: flex; gap: 8px; padding: 20px 40px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .year-btn {
+    background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+    font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+    padding: 8px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; letter-spacing: 0.5px;
+  }
+  .year-btn:hover { border-color: var(--accent1); color: var(--text); }
+  .year-btn.active { background: var(--accent1); border-color: var(--accent1); color: #fff; box-shadow: 0 0 18px rgba(108,99,255,0.35); }
+
+  .main { padding: 28px 40px; display: flex; gap: 24px; align-items: flex-start; }
+
+  /* SIDEBAR */
+  .sidebar { width: 248px; flex-shrink: 0; position: sticky; top: 20px; }
+  .area-section { margin-bottom: 18px; }
+  .area-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 0 0 7px 4px; border-bottom: 1px solid var(--border); margin-bottom: 6px; }
+  .subject-btn {
+    display: flex; align-items: center; gap: 9px; width: 100%;
+    background: none; border: none; color: var(--muted);
+    font-family: 'DM Sans', sans-serif; font-size: 12.5px;
+    padding: 7px 9px; border-radius: 7px; cursor: pointer; transition: all 0.15s ease; text-align: left;
+  }
+  .subject-btn:hover { background: var(--surface); color: var(--text); }
+  .subject-btn.active { background: var(--surface); color: var(--text); }
+  .subject-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+  /* CONTENT */
+  .content-area { flex: 1; min-width: 0; }
+  .content-header { margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+  .content-area-badge {
+    display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    padding: 3px 11px; border-radius: 20px; margin-bottom: 9px;
+  }
+  .content-title { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 6px; }
+  .content-year-tag {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted);
+    background: var(--surface); padding: 3px 11px; border-radius: 20px; border: 1px solid var(--border);
+  }
+
+  /* BLOCKS */
+  .content-blocks { display: flex; flex-direction: column; gap: 12px; }
+  .block { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color 0.2s; }
+  .block:hover { border-color: rgba(108,99,255,0.25); }
+  .block-header { display: flex; justify-content: space-between; align-items: center; padding: 13px 18px; cursor: pointer; user-select: none; }
+  .block-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text); }
+  .block-toggle { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border-radius: 50%; font-size: 12px; color: var(--muted); transition: transform 0.2s, background 0.2s; flex-shrink: 0; }
+  .block.open .block-toggle { transform: rotate(180deg); background: rgba(108,99,255,0.2); color: var(--accent1); }
+  .block-body { display: none; padding: 4px 18px 18px; border-top: 1px solid var(--border); }
+  .block.open .block-body { display: block; }
+
+  /* HIERARQUIA FIEL AO PDF */
+  /* Nível •  — item principal */
+  .l0 { list-style: none; padding: 0; margin-top: 12px; }
+  .l0 > li { position: relative; padding: 4px 0 4px 18px; font-size: 13px; line-height: 1.6; color: #d0d0e8; }
+  .l0 > li::before { content: '•'; position: absolute; left: 2px; color: #8888bb; font-size: 14px; line-height: 1.4; }
+
+  /* Nível ✓  — subitem */
+  .l1 { list-style: none; padding: 0; margin: 4px 0 0 0; }
+  .l1 > li { position: relative; padding: 3px 0 3px 20px; font-size: 12.5px; line-height: 1.55; color: #b0b0cc; }
+  .l1 > li::before { content: '✓'; position: absolute; left: 0; color: #6c63ff; font-size: 11px; line-height: 1.6; }
+
+  /* Nível o  — sub-subitem */
+  .l2 { list-style: none; padding: 0; margin: 3px 0 0 0; }
+  .l2 > li { position: relative; padding: 2px 0 2px 18px; font-size: 12px; line-height: 1.5; color: #9090b0; }
+  .l2 > li::before { content: 'o'; position: absolute; left: 1px; color: #555575; font-size: 10px; line-height: 1.7; font-style: italic; }
+
+  /* Nível ➢  — sub-sub-subitem */
+  .l3 { list-style: none; padding: 0; margin: 2px 0 0 0; }
+  .l3 > li { position: relative; padding: 2px 0 2px 16px; font-size: 11.5px; line-height: 1.5; color: #787898; }
+  .l3 > li::before { content: '›'; position: absolute; left: 2px; color: #444466; font-size: 13px; line-height: 1.35; }
+
+  /* Nível ▪  — nível mais profundo */
+  .l4 { list-style: none; padding: 0; margin: 2px 0 0 0; }
+  .l4 > li { position: relative; padding: 1px 0 1px 14px; font-size: 11px; line-height: 1.5; color: #666686; }
+  .l4 > li::before { content: '–'; position: absolute; left: 0; color: #404060; }
+
+  /* placeholder */
+  .placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 380px; gap: 14px; color: var(--muted); }
+  .placeholder-icon { font-size: 52px; opacity: 0.25; }
+  .placeholder-text { font-size: 13px; text-align: center; max-width: 280px; line-height: 1.6; }
+
+  .badge-linguagens { background: rgba(124,77,255,0.13); color: #b39dff; border: 1px solid rgba(124,77,255,0.3); }
+  .badge-mat       { background: rgba(0,188,212,0.1);   color: #7ee8f5; border: 1px solid rgba(0,188,212,0.3); }
+  .badge-ciencias  { background: rgba(76,175,80,0.1);   color: #a5d6a7; border: 1px solid rgba(76,175,80,0.3); }
+  .badge-humanas   { background: rgba(255,112,67,0.1);  color: #ffab91; border: 1px solid rgba(255,112,67,0.3); }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 768px) {
+    .main { flex-direction: column; padding: 16px; }
+    .sidebar { width: 100%; position: static; }
+    header, .year-nav { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-chip">Plano de Curso 826 · Conteúdo Integral</div>
+  <h1>Base Nacional Comum<br><span>Curricular</span></h1>
+  <p>Técnico em Informática para Internet · Objetos de Conhecimento completos por série e disciplina, extraídos na íntegra do Plano de Curso.</p>
+</header>
+
+<nav class="year-nav">
+  <button class="year-btn active" onclick="setYear(1)">1ª Série</button>
+  <button class="year-btn" onclick="setYear(2)">2ª Série</button>
+  <button class="year-btn" onclick="setYear(3)">3ª Série</button>
+</nav>
+
+<div class="main">
+  <aside class="sidebar" id="sidebar"></aside>
+  <section class="content-area" id="contentArea">
+    <div class="placeholder">
+      <div class="placeholder-icon">📚</div>
+      <p class="placeholder-text">Selecione uma disciplina no menu lateral para exibir todos os Objetos de Conhecimento</p>
+    </div>
+  </section>
+</div>
+
+<script>
+// Helper: monta li hierárquico a partir de estrutura de objetos
+// Estrutura de cada item:
+//   string => <li> simples
+//   { t, c } => <li>t + lista filhos c[]</li>
+
+function buildList(items, level) {
+  if (!items || !items.length) return '';
+  const cls = 'l' + level;
+  let html = `<ul class="${cls}">`;
+  for (const item of items) {
+    if (typeof item === 'string') {
+      html += `<li>${item}</li>`;
+    } else {
+      // { t: texto, c: filhos }
+      const children = item.c ? buildList(item.c, level + 1) : '';
+      html += `<li>${item.t}${children}</li>`;
+    }
+  }
+  html += '</ul>';
+  return html;
+}
+
+// ═══════════════════════════════════════════════════════
+// DADOS COMPLETOS — EXTRAÍDOS NA ÍNTEGRA DO PDF
+// ═══════════════════════════════════════════════════════
+
+const DATA = {
+
+// ══════════════ 1ª SÉRIE ══════════════
+
+'lp-1': {
+  label: 'Língua Portuguesa', area: 'linguagens', years: [1],
+  blocks: [
+    { title: 'PRÁTICAS DE ESCUTA E ORALIDADE', items: [
+      { t: 'Práticas de oralidade:', c: [
+        'escuta atenta, turno e tempo de fala;',
+        'tomada de nota.',
+      ]},
+      { t: 'Efeitos de sentido:', c: [
+        'compreensão geral e específica de textos e relação entre textos e contextos de produção (textos orais).',
+      ]},
+      { t: 'Planejamento, produção e edição de textos orais:', c: [
+        'produção oral pelo uso de recursos multissemióticos, de forma individual e coletiva;',
+        'uso adequado de ferramentas de apoio para apresentações orais;',
+        'relação do texto com o contexto de produção e experimentação de papéis sociais.',
+      ]},
+    ]},
+    { title: 'PRÁTICAS DE LEITURA E ESCRITA', items: [
+      { t: 'Estratégias de leitura:', c: [
+        { t: 'procedimentos de estudo:', c: [
+          'organização;',
+          'grifar, anotar, resumir.',
+        ]},
+      ]},
+      { t: 'Apreciação:', c: [
+        'avaliação de aspectos éticos, estéticos e políticos em textos e produções artísticas, culturais etc.',
+      ]},
+      { t: 'Réplica:', c: [
+        'posicionamento responsável em relação a temas, visões de mundo e ideologias veiculados por textos e atos de linguagem.',
+      ]},
+      'Relação do texto com o contexto de produção e experimentação dos papéis sociais;',
+      { t: 'Leitura e compreensão de Textos Escritos e Multissemióticos:', c: [
+        'estratégias de leitura;',
+        { t: 'efeitos de sentido:', c: [
+          { t: 'compreensão geral e específica de textos e relação entre textos e contextos de produção;', c: [] },
+          'uso de recursos linguísticos e multissemióticos com efeitos de sentido.',
+        ]},
+      ]},
+      { t: 'Planejamento, produção de textos escritos e multissemióticos:', c: [
+        'curadoria de informação;',
+        'consideração do contexto de produção, circulação e recepção;',
+        'produção escrita pelo uso de recursos multissemióticos, de forma individual e coletiva;',
+        { t: 'ferramentas digitais para leitura e escrita:', c: [
+          'uso de softwares de edição.',
+        ]},
+      ]},
+      { t: 'Contexto de produção, circulação e recepção de Textos Publicitários:', c: [
+        { t: 'análise de textos de gêneros discursivos contemporâneos de campanhas publicitárias e políticas;', c: [] },
+        'mecanismos de persuasão e argumentação;',
+        { t: 'peças de campanhas publicitárias: cartazes, folhetos, anúncios, propagandas em diferentes mídias, spots, jingles etc.', c: [] },
+      ]},
+      { t: 'Contexto de produção, circulação e recepção de Textos do Campo Jornalístico-Midiático:', c: [
+        'curadoria de informação em fontes confiáveis;',
+        'mecanismos de persuasão e argumentação;',
+        'parcialidade e imparcialidade em textos noticiosos;',
+        'comparação de textos noticiosos sobre um mesmo fato, em diferentes fontes;',
+        'combate à disseminação de fake news;',
+        'verificar/avaliar veículo, fonte, data e local da publicação, autoria, URL, formatação; comparar diferentes fontes; consultar ferramentas e sites checadores etc.;',
+        { t: 'publicidade digital: advergame, anúncios em vídeos, social advertising, narrativa mercadológica, entre outras.', c: [] },
+      ]},
+      { t: 'Condições de produção (e/ou reconstrução), circulação e recepção de Textos Artístico-literários:', c: [
+        'curadoria de repertório artístico-literário;',
+        'compreensão em leitura e análise das obras fundamentais do cânone ocidental (Literatura Portuguesa);',
+        { t: 'repertórios de leitura e apreciação: literatura brasileira, portuguesa, indígena, africana e latino-americana.', c: [] },
+      ]},
+      { t: 'Reconstrução do contexto de produção, circulação e recepção de Textos, Mídias e Práticas da Cultura Digital:', c: [
+        'análise dos processos de curadoria de informação em ambiente digital;',
+        'curadoria de informação com posicionamento crítico.',
+      ]},
+    ]},
+    { title: 'PRÁTICAS DE ANÁLISE LINGUÍSTICA', items: [
+      { t: 'Variação linguística (abordagens):', c: [
+        'análise dos diferentes níveis e dimensões;',
+        { t: 'preconceito linguístico:', c: [
+          'combate ao preconceito linguístico.',
+        ]},
+      ]},
+      'Morfossintaxe;',
+      { t: 'Usos da norma-padrão:', c: [
+        'análise de usos.',
+      ]},
+      { t: 'Gêneros de apoio à compreensão de textos orais, escritos e multissemióticos:', c: [
+        'sínteses, resumos, esquemas;',
+        'textualização e retextualização.',
+      ]},
+    ]},
+  ]
+},
+
+'li-1': {
+  label: 'Língua Inglesa', area: 'linguagens', years: [1],
+  blocks: [
+    { title: 'PRÁTICAS DE ESCUTA E ORALIDADE', items: [
+      'Escuta atenta, turno e tempo de fala;',
+      'Tomada de nota;',
+      { t: 'Compreensão geral e específica de textos orais:', c: [
+        { t: 'estratégias de leitura:', c: [
+          { t: 'conhecimento prévio sobre o tema para favorecer o estabelecimento de hipóteses sobre o que será ouvido;', c: [] },
+          'atenção às informações que se deseja extrair do texto.',
+        ]},
+      ]},
+      'Identificação de características da linguagem falada para o exercício "speaking";',
+      'Relação entre textos e contextos de produção de textos orais;',
+      { t: 'Efeitos de sentidos em textos de natureza oral:', c: [
+        'linguagem denotativa e conotativa em textos de diferentes intencionalidades.',
+      ]},
+      'Relação entre fala e escrita;',
+      { t: 'Planejamento, produção e edição de textos orais:', c: [
+        'produção de gêneros orais demarcados pelos atos de narrar, relatar, expor, argumentar e descrever ações, adequados às diferentes plataformas e ambientes para publicação.',
+      ]},
+    ]},
+    { title: 'PRÁTICAS DE LEITURA E ESCRITA', items: [
+      { t: 'Procedimentos de estudo:', c: [
+        'organização;',
+        'grifar, anotar, resumir.',
+      ]},
+      { t: 'Leitura e compreensão de textos escritos e multissemióticos:', c: [
+        { t: 'estratégias de leitura:', c: [
+          'compreensão geral (skimming) e específica (scanning);',
+          'efeitos de sentido;',
+          { t: 'uso de recursos linguísticos e multissemióticos com efeitos de sentido:', c: [
+            'recursos ortográficos e de pontuação (indicação de abreviações e palavras escondidas);',
+            'uso de cognatos (palavras transparentes);',
+            'uso de palavras já conhecidas;',
+            'presença de palavras-chave (Keywords);',
+            'pesquisa de palavras em dicionários.',
+          ]},
+          'identificação do objetivo que se tem com a leitura;',
+          'observação do título e do formato do texto (figuras, ilustrações, subtítulo, entre outros);',
+          'conhecimento prévio sobre o tema;',
+          'identificação do gênero textual;',
+          'promoção de tempestade de ideias;',
+          'observação de informações específicas;',
+          'observação de imagens, números e símbolos universais;',
+          'reconhecimento da ideia que está sendo desenvolvida no texto;',
+          'apresentação de introduções formais e informais para a elaboração de texto;',
+          'identificação de frases-chave.',
+        ]},
+      ]},
+      { t: 'Relação entre textos e contextos de produção:', c: [
+        'aspectos do gênero e do contexto de produção e circulação de textos.',
+      ]},
+      { t: 'Planejamento, produção e edição de textos escritos e multissemióticos:', c: [
+        'curadoria de informação;',
+        'consideração do contexto de produção, circulação e recepção;',
+        { t: 'produção escrita:', c: [
+          'uso de recursos multissemióticos, de forma individual e coletiva;',
+          'uso de ferramentas digitais.',
+        ]},
+        'Produção de gêneros escritos demarcados pelos atos de narrar, relatar, expor, argumentar e descrever ações, adequados às diferentes plataformas e ambientes para publicação.',
+      ]},
+    ]},
+    { title: 'PRÁTICAS DE ANÁLISE LINGUÍSTICA', items: [
+      'Variação linguística (abordagens);',
+      'Interação dos gêneros textuais e práticas artísticas e culturais de países de língua inglesa;',
+      'Saberes populares, músicas, danças, comidas, festas típicas, personalidades, datas comemorativas;',
+      { t: 'Terminologias técnicas e científicas e vocabulários específicos:', c: [
+        'dicionários bilíngues, vocabulários, glossários;',
+        'sinônimos, antônimos, siglas, abreviações e acrônimos.',
+      ]},
+      'Conceitos gramaticais necessários para a organização das linguagens formal e informal.',
+    ]},
+  ]
+},
+
+'arte-1': {
+  label: 'Arte', area: 'linguagens', years: [1],
+  blocks: [
+    { title: 'ELEMENTOS DA LINGUAGEM', items: [
+      { t: 'Aspectos relacionados aos códigos, símbolos e signos:', c: [
+        'artes visuais;',
+        'música;',
+        'teatro;',
+        'dança.',
+      ]},
+      { t: 'Produção da linguagem da Arte e suas transformações:', c: [
+        'da pintura rupestre à contemporaneidade.',
+      ]},
+      'Processos técnicos, formais e temáticos nos movimentos e estilos artísticos.',
+    ]},
+    { title: 'MATERIALIDADES', items: [
+      { t: 'Prática artística:', c: [
+        'materiais, técnicas e suportes;',
+        { t: 'experimentação, combinação e descobertas na linguagem artística:', c: [
+          { t: 'artes visuais, música, teatro, dança e tecnologias digitais.', c: [] },
+        ]},
+      ]},
+      { t: 'Técnicas:', c: [
+        'manuais;',
+        'suporte tecnológico (ferramentas e dispositivos digitais).',
+      ]},
+      'Significado do material enquanto obra de arte.',
+    ]},
+    { title: 'MEDIAÇÃO CULTURAL', items: [
+      'Aspectos históricos e evolutivos do pensamento humano por meio de obras artísticas;',
+      'Influências de novas tecnologias e desdobramentos na Arte e na Cultura;',
+      { t: 'Aspectos relacionais nas produções artísticas e culturais:', c: [
+        'gênero;',
+        'ética e consumo;',
+        'política e ideologias;',
+        'trajetórias pessoais e profissionais;',
+        'outras áreas do conhecimento.',
+      ]},
+      'Espaços culturais e artísticos e agentes.',
+    ]},
+    { title: 'PROCESSOS DE CRIAÇÃO', items: [
+      'Etapas do processo criativo e artístico;',
+      'Técnicas e ferramentas;',
+      'Mitos e verdades do processo criativo.',
+    ]},
+    { title: 'PATRIMÔNIO CULTURAL', items: [
+      { t: 'Aspectos conceituais de patrimônio:', c: [
+        'artístico;',
+        'histórico;',
+        'cultural;',
+        'bens materiais e imateriais;',
+        'tombamento.',
+      ]},
+      'Memória e preservação de bens;',
+      'Espaços de conservação, preservação e apreciação de obras de arte.',
+    ]},
+    { title: 'SABERES ESTÉTICOS E CULTURAIS', items: [
+      { t: 'Dimensão estética da Arte:', c: [
+        'imagem, corpo, tempo e espaço.',
+      ]},
+      { t: 'Diferentes concepções da Cultura:', c: [
+        'erudita;',
+        'popular ou espontânea;',
+        'de massa.',
+      ]},
+      { t: 'Produção artística e cultural brasileiras:', c: [
+        'influência portuguesa;',
+        'influência africana;',
+        'influência indígena;',
+        'influência imigrante.',
+      ]},
+    ]},
+  ]
+},
+
+'ef-1': {
+  label: 'Educação Física', area: 'linguagens', years: [1],
+  blocks: [
+    { title: 'BRINCADEIRAS E JOGOS', items: [
+      { t: 'Aspectos estruturais:', c: [
+        { t: 'classificação:', c: [
+          { t: 'brincadeiras:', c: [
+            'práticas populares;',
+            'brincadeiras livres;',
+            'brincadeiras dirigidas.',
+          ]},
+          { t: 'jogos:', c: [
+            'competitivos;',
+            'cooperativos;',
+            'recreativos;',
+            { t: 'de interpretação de personagem:', c: [
+              'RPG (Role Playing Game).',
+            ]},
+            { t: 'eletrônicos:', c: [
+              'estratégias;',
+              'regras e condutas;',
+              'coordenação motora fina;',
+              'realidade virtual x realidade aumentada.',
+            ]},
+          ]},
+        ]},
+      ]},
+    ]},
+    { title: 'ESPORTE', items: [
+      { t: 'Aspectos estruturais:', c: [
+        { t: 'classificação:', c: [
+          'técnico-combinatório;',
+          'de combate;',
+          'de invasão.',
+        ]},
+        { t: 'sistema tático e regras:', c: [
+          'linguagens dos sinais na arbitragem (universal).',
+        ]},
+      ]},
+      'ferramentas digitais aplicadas à prática de esporte.',
+    ]},
+    { title: 'DANÇA', items: [
+      { t: 'Aspectos estruturais:', c: [
+        { t: 'classificação:', c: [
+          'origem;',
+          'finalidade/propósito;',
+          { t: 'maneiras de dançar:', c: [
+            'dança solo;',
+            'dança em dupla;',
+            'dança em grupo.',
+          ]},
+        ]},
+        { t: 'características e expressões da dança:', c: [
+          'popular;',
+          'clássica/erudita;',
+          'de salão;',
+          'de massas.',
+        ]},
+      ]},
+      'Diálogo entre a dança e os fenômenos socioculturais.',
+    ]},
+    { title: 'GINÁSTICA', items: [
+      { t: 'Modalidades competitivas:', c: [
+        'acrobática;',
+        'aeróbica;',
+        'artística;',
+        'rítmica;',
+        'de trampolim.',
+      ]},
+      'Recursos tecnológicos aplicados à prática da ginástica.',
+    ]},
+    { title: 'LUTA', items: [
+      'Lutas no Brasil e no mundo;',
+      'Organização de eventos e competições de luta;',
+      { t: 'Influência das mídias nas práticas de luta:', c: [
+        'luta enquanto esporte;',
+        'luta enquanto prática corporal;',
+        'luta enquanto espetáculo.',
+      ]},
+      'Linguagens dos sinais na arbitragem (universal).',
+    ]},
+    { title: 'PRÁTICAS CORPORAIS DE AVENTURA', items: [
+      { t: 'Aspectos estruturais:', c: [
+        { t: 'classificação:', c: [
+          'locais urbanos;',
+          'na natureza.',
+        ]},
+      ]},
+    ]},
+    { title: 'CORPO, MOVIMENTO E SAÚDE', items: [
+      { t: 'Corpo em movimento:', c: [
+        'benefícios das atividades corporais;',
+        'demandas energéticas e hábitos de alimentação;',
+        'capacidades físicas e habilidades motoras;',
+        'atividade física ou exercício físico X qualidade de vida;',
+        { t: 'o corpo e os possíveis efeitos nas práticas corporais:', c: [
+          'efeitos fisiológicos;',
+          'efeitos morfológicos;',
+          'efeitos psicossociais.',
+        ]},
+        { t: 'cultura corporal e identidade:', c: [
+          'padrões e estereótipos de beleza corporal;',
+          'funções sociais das práticas corporais;',
+          { t: 'comparação fisiológica e seus efeitos nos discursos sobre saúde e corpo na contemporaneidade.', c: [] },
+        ]},
+      ]},
+    ]},
+  ]
+},
+
+// ──── Matemática 1ª série ────
+'mat-1': {
+  label: 'Matemática', area: 'mat', years: [1],
+  blocks: [
+    { title: 'NÚMEROS E ÁLGEBRA', items: [
+      'Conjuntos numéricos;',
+      { t: 'Função:', c: [
+        'conceito de função;',
+        'funções afins, lineares, constantes e função identidade;',
+        'função composta e inversa;',
+        'função do 1º grau;',
+        'função do 2º grau;',
+        'função modular;',
+        'função exponencial.',
+      ]},
+      { t: 'Sequências numéricas:', c: [
+        'conceitos;',
+        'progressões aritméticas (P.A.);',
+        'progressões geométricas (P.G.).',
+      ]},
+      { t: 'Matemática financeira:', c: [
+        'conceitos;',
+        'porcentagem;',
+        'juros simples e compostos.',
+      ]},
+    ]},
+    { title: 'GEOMETRIA E MEDIDAS', items: [
+      'Geometria métrica;',
+      'Conceitos e procedimentos;',
+      { t: 'Sistema métrico decimal e unidades não convencionais:', c: [
+        { t: 'bases de sistemas de contagem:', c: [
+          'base decimal, base binária, base sexagesimal, entre outros.',
+        ]},
+      ]},
+      { t: 'Sistemas e unidades de medida:', c: [
+        'Sistema Internacional de Medidas (SI);',
+        'algarismos significativos e técnicas de arredondamento;',
+        'notação científica;',
+        'noção de erro em medições;',
+        'grandezas determinadas pela razão ou produto de outras (velocidade, densidade de um corpo, densidade demográfica, potência elétrica, grandezas de armazenamento de dados na informática (bit, byte, kilobyte, megabyte, gigabyte, entre outros) e transferência de dados (Mbps, Kbps, Gbps, entre outros));',
+        'conversão entre unidades compostas.',
+      ]},
+      { t: 'Proporcionalidades:', c: [
+        'segmento de retas;',
+        'teorema de Tales;',
+        'teorema da bissetriz.',
+      ]},
+      { t: 'Geometria das transformações:', c: [
+        { t: 'isometrias:', c: [
+          'reflexão, translação e rotação.',
+        ]},
+        { t: 'homotetias:', c: [
+          'ampliação e redução.',
+        ]},
+      ]},
+      { t: 'Geometria dos fractais:', c: [
+        'conceitos.',
+      ]},
+    ]},
+    { title: 'PROBABILIDADE E ESTATÍSTICA', items: [
+      { t: 'Estatística:', c: [
+        'pesquisa e organização de dados;',
+        'confiabilidade de fontes de dados.',
+      ]},
+      { t: 'Estatística descritiva:', c: [
+        { t: 'medidas de tendência central:', c: [
+          'média, moda e mediana.',
+        ]},
+        { t: 'medidas de dispersão:', c: [
+          'amplitude, variância e desvio-padrão.',
+        ]},
+        { t: 'gráficos e infográficos utilizados pela estatística:', c: [
+          'elementos de um gráfico.',
+        ]},
+        'interpretação de dados estatísticos.',
+      ]},
+    ]},
+  ]
+},
+
+// ──── Física 1ª série ────
+'fis-1': {
+  label: 'Física', area: 'ciencias', years: [1],
+  blocks: [
+    { title: 'MATÉRIA E ENERGIA', items: [
+      { t: 'Conservação da energia:', c: [
+        'trabalho mecânico;',
+        'potência;',
+        'energia cinética;',
+        'energia potencial gravitacional e elástica.',
+      ]},
+      { t: 'Calorimetria:', c: [
+        'propagação do calor;',
+        'quantidade de calor, calor sensível e calor latente;',
+        'capacidade térmica;',
+        'calor específico;',
+        'processos de transmissão de calor;',
+        'condutibilidade térmica.',
+      ]},
+    ]},
+    { title: 'VIDA, TERRA E COSMOS', items: [
+      { t: 'Astronomia:', c: [
+        'estrelas, planetas, satélite, outros corpos celestes;',
+        'força gravitacional;',
+        'teoria do Big Bang.',
+      ]},
+      { t: 'Sistema Solar e Universo:', c: [
+        'expansão do universo;',
+        'leis de Kepler, lei da gravitação universal;',
+        'modelos cosmológicos;',
+        'relatividade geral.',
+      ]},
+      { t: 'Cinemática:', c: [
+        'espaço, tempo, distância, velocidade, aceleração, equação horária, movimento circular, queda livre, lançamento de projétil.',
+      ]},
+      { t: 'Dinâmica:', c: [
+        'leis de Newton, forças (peso, tração, normal), força de atrito, plano inclinado, força centrípeta, impulso.',
+      ]},
+      { t: 'Estática:', c: [
+        'equilíbrio dos sólidos, centro de massa, momento – torque;',
+        'grandezas escalares e vetoriais.',
+      ]},
+      { t: 'Hidrostática:', c: [
+        'pressão, densidade;',
+        'lei de Stevin;',
+        'princípio de Pascal;',
+        'Arquimedes – empuxo.',
+      ]},
+    ]},
+    { title: 'TECNOLOGIA E LINGUAGEM CIENTÍFICA', items: [
+      { t: 'Termometria:', c: [
+        'temperatura e escalas termométricas;',
+        'condições do ar, clima.',
+      ]},
+      { t: 'Dilatação térmica:', c: [
+        'sólidos, líquidos, gases.',
+      ]},
+      { t: 'Termodinâmica:', c: [
+        'leis da Termodinâmica;',
+        'energia cinética dos gases, rendimento, ciclo de Carnot, entropia;',
+        'motores de combustão interna; calor, trabalho e rendimento;',
+        { t: 'máquinas térmicas:', c: [
+          'trabalho, energia interna, potência e rendimento, transformações cíclicas, impacto social e econômico.',
+        ]},
+      ]},
+      'Aquecimento global e efeito estufa;',
+      { t: 'Investigação científica:', c: [
+        'definição da situação-problema, objeto de pesquisa, justificativa, elaboração da hipótese, revisão da literatura, experimentação e simulação, coleta e análise de dados, precisão das medidas, elaboração de gráficos e tabelas, discussão argumentativa, construção e apresentação de conclusões.',
+      ]},
+    ]},
+  ]
+},
+
+// ──── Química 1ª série ────
+'qui-1': {
+  label: 'Química', area: 'ciencias', years: [1],
+  blocks: [
+    { title: 'MATÉRIA E ENERGIA', items: [
+      { t: 'Estrutura e constituição da matéria:', c: [
+        'modelo atômico de Dalton, elementos, símbolos, massa atômica, número atômico.',
+      ]},
+      { t: 'Transformações químicas:', c: [
+        'fenômenos naturais e processos produtivos.',
+      ]},
+      { t: 'Conservação de massa:', c: [
+        'quantidade de matéria — relações entre massas, mol e número de partículas, equações químicas, proporções entre reagentes e produtos.',
+      ]},
+      { t: 'Conservação de energia:', c: [
+        'poder calorífico, reações de combustão.',
+      ]},
+      { t: 'Métodos sustentáveis de extração, processos produtivos, uso e consumo:', c: [
+        'combustíveis alternativos e recursos minerais, fósseis, vegetais e animais.',
+      ]},
+      'Composição, toxicidade e reatividade de substâncias químicas;',
+      'Soluções e concentrações;',
+      { t: 'Ciclos biogeoquímicos:', c: [
+        'toxicidade das substâncias químicas, tempo de permanência dos poluentes, reações químicas, transferências de energia e impactos ambientais e na saúde dos seres vivos.',
+      ]},
+      'Poluição de ambientes aquáticos e terrestres por materiais tóxicos provenientes do descarte incorreto;',
+      { t: 'Agentes poluidores do ar, da água e do solo:', c: [
+        'ações de tratamento e minimização de impactos ambientais, concentração de poluentes e parâmetros quantitativos de qualidade;',
+        'tratamento de água e esgoto.',
+      ]},
+      { t: 'Termoquímica:', c: [
+        'eficiência energética de diferentes combustíveis.',
+      ]},
+    ]},
+    { title: 'VIDA, TERRA E COSMOS', items: [
+      { t: 'Tabela Periódica:', c: [
+        { t: 'elementos e substâncias químicas:', c: [
+          'história, estrutura e composição.',
+        ]},
+      ]},
+      'Propriedades e nomenclaturas;',
+      { t: 'Rapidez das transformações químicas:', c: [
+        'variáveis que influenciam nas reações químicas.',
+      ]},
+    ]},
+    { title: 'TECNOLOGIA E LINGUAGEM CIENTÍFICA', items: [
+      { t: 'Investigação científica:', c: [
+        'definição da situação-problema, objeto de pesquisa, justificativa, elaboração da hipótese, revisão da literatura, experimentação e simulação, coleta e análise de dados, precisão das medidas, elaboração de gráficos e tabelas, discussão argumentativa, construção e apresentação de conclusões.',
+      ]},
+      { t: 'Ética científica:', c: [
+        'utilização indevida de reações químicas e nucleares que provocaram impacto na história da humanidade e do planeta.',
+      ]},
+      'Equipamentos de proteção individual (EPI) e coletiva (EPC);',
+      'Ações de segurança e descarte adequado de materiais, resíduos, substâncias nocivas e tóxicas produzidas em ambientes de trabalho e/ou laboratórios químicos.',
+    ]},
+  ]
+},
+
+// ──── Biologia 1ª série ────
+'bio-1': {
+  label: 'Biologia', area: 'ciencias', years: [1],
+  blocks: [
+    { title: 'MATÉRIA E ENERGIA', items: [
+      { t: 'Interações ecológicas e energia no ambiente:', c: [
+        'fluxo de matéria e energia (cadeias e teias alimentares);',
+        'equilíbrio sistêmico do ecossistema e soluções para situações que ameacem esse equilíbrio;',
+        'bioacumulação trófica;',
+        'descarte indevido de resíduos e seus efeitos nas cadeias tróficas e nos organismos vivos;',
+        'ciclos biogeoquímicos e ações mitigatórias da interferência humana nos ciclos (ex.: reflorestamento);',
+        'fontes alternativas e renováveis de energia (eólica, solar, biomassa, biogás) em contraponto à extração e utilização de combustíveis fósseis (impactos nas comunidades bióticas).',
+      ]},
+    ]},
+    { title: 'VIDA, TERRA E COSMOS', items: [
+      { t: 'Diversidade de vida:', c: [
+        'sistemática, cladística e classificação dos organismos;',
+        'metabolismo energético (fotossíntese e respiração).',
+      ]},
+      { t: 'Problemas ambientais decorrentes da ação antrópica:', c: [
+        'efeito estufa (manutenção da vida e consequências da intensificação);',
+        'mudanças climáticas (aquecimento global);',
+        'efeitos biológicos das radiações e acidentes radioativos;',
+        'poluição do solo, água e ar;',
+        'interferência humana nos ciclos biogeoquímicos (agrotóxicos, fertilizantes, pecuária);',
+        'impactos da intervenção humana (desmatamento, agropecuária, mineração) e seus efeitos nos ecossistemas e na saúde dos seres vivos;',
+        'conservação e proteção da biodiversidade (unidades de conservação);',
+        'poluição (sonora e visual) e impactos nos sistemas fisiológicos.',
+      ]},
+    ]},
+    { title: 'TECNOLOGIA E LINGUAGEM CIENTÍFICA', items: [
+      { t: 'Abordagens sociais, ambientais e culturais:', c: [
+        { t: 'fisiologia humana em diálogo com a saúde e bem-estar do adolescente (IST, gravidez na adolescência, obesidade/desnutrição, álcool e drogas);', c: [] },
+        { t: 'saúde individual e coletiva:', c: [
+          { t: 'saneamento básico, vacinação, SUS;', c: [] },
+          'segurança alimentar, garantia básica nutricional.',
+        ]},
+        { t: 'saúde individual:', c: [
+          'higiene e alimentação equilibrada.',
+        ]},
+        { t: 'bioética:', c: [
+          'proteção e manutenção da variabilidade genética.',
+        ]},
+      ]},
+    ]},
+  ]
+},
+
+// ══════════════ 2ª SÉRIE ══════════════
+
+'lp-2': {
+  label: 'Língua Portuguesa', area: 'linguagens', years: [2],
+  blocks: [
+    { title: 'PRÁTICAS DE ESCUTA E ORALIDADE', items: [
+      { t: 'Práticas de oralidade:', c: [
+        'escuta atenta, turno e tempo de fala;',
+        'tomada de nota;',
+        'estratégias e procedimentos de leitura de textos orais.',
+      ]},
+      { t: 'Efeitos de sentido:', c: [
+        'efeitos de sentido provocados pelo uso de recursos sonoros (volume, timbre, intensidade, pausas, ritmo, efeitos sonoros, sincronização etc.);',
+        'efeitos de sentido provocados pelo uso de recursos sonoros em combinação com recursos linguísticos e/ou multissemióticos;',
+        'efeitos de sentido a partir da análise semiótica.',
+      ]},
+      { t: 'Planejamento, produção e edição de textos orais:', c: [
+        'produção oral pelo uso de recursos multissemióticos, de forma individual e coletiva;',
+        { t: 'discussão de temas controversos de interesse e/ou relevância social e de interesse da turma:', c: [
+          { t: 'réplica: posicionamento responsável em relação a temas, visões de mundo e ideologias veiculados por textos e atos de linguagem;', c: [] },
+          'seleção e uso de argumentos para defesa de opiniões;',
+          'modalização.',
+        ]},
+        { t: 'debate:', c: [
+          'participação em debates, assembleias e fóruns de discussão.',
+        ]},
+        'uso adequado de ferramentas de apoio para apresentações orais.',
+      ]},
+    ]},
+    { title: 'PRÁTICAS DE LEITURA E ESCRITA', items: [
+      { t: 'Apreciação:', c: [
+        'avaliação de aspectos éticos, estéticos e políticos em textos e produções artísticas e culturais etc.',
+      ]},
+      { t: 'Réplica:', c: [
+        'posicionamento responsável em relação a temas, visões de mundo e ideologias veiculados por textos e atos de linguagem;',
+        'usos de recursos expressivos de diferentes linguagens.',
+      ]},
+      { t: 'Condições de produção (e/ou reconstrução), circulação e recepção de Textos do Campo da Vida Pública:', c: [
+        { t: 'relação entre textos e discursos da esfera política:', c: [
+          'emprego de recursos linguísticos e multissemióticos e efeitos de sentido.',
+        ]},
+      ]},
+      { t: 'Condições de produção (e/ou reconstrução), circulação e recepção de Textos Argumentativos:', c: [
+        'curadoria de informação;',
+        'planejamento e produção;',
+        { t: 'movimentos argumentativos (sustentação, refutação/contra-argumentação e negociação):', c: [
+          'tese e argumentação;',
+          'fato e opinião.',
+        ]},
+        'relações entre as partes do texto;',
+        'seleção de informação, dados e argumentação em fontes confiáveis impressas e digitais para produção textual fundamentada para além do senso comum.',
+      ]},
+      { t: 'Condições de produção (e/ou reconstrução), circulação e recepção de Textos Artístico-literários:', c: [
+        'repertórios de leitura e apreciação: literatura brasileira, portuguesa, indígena, africana e latino-americana;',
+        'regularidades;',
+        'reconstrução da textualidade e compreensão dos efeitos de sentido provocados pelo uso de recursos linguísticos e multissemióticos;',
+        'ferramentas da crítica literária: curadoria da informação;',
+        'apreensão pessoal do cotidiano nas crônicas, manifestação livre e subjetiva do eu lírico do mundo nos poemas, múltipla perspectiva da vida humana e social dos romances, dimensão política e social de textos da literatura marginal e da periferia etc.',
+      ]},
+      { t: 'Contexto de produção (e/ou reconstrução), circulação e recepção de Textos Escritos e Multissemióticos:', c: [
+        { t: 'planejamento, produção e edição de textos escritos e multissemióticos a partir dos dados coletados:', c: [
+          'questionários, enquetes, mapeamentos, opinários.',
+        ]},
+        'reconstrução da textualidade e compreensão dos efeitos de sentidos provocados pelos usos de recursos linguísticos e multissemióticos;',
+        { t: 'textos multimodais:', c: [
+          { t: 'formas como são recebidos em diferentes plataformas (níveis de apreciação, interpretação, intervenção e articulação);', c: [] },
+          'perfis variados, gifs biográficos, biodata, currículo Web, videocurrículo.',
+        ]},
+        { t: 'usos expressivos de recursos linguísticos, paralinguísticos e cinésicos:', c: [
+          { t: 'dialogia e relações entre textos: intertextualidade e interdiscursividade;', c: [] },
+          'procedimentos de produção de paráfrase, citações, paródia e estilizações.',
+        ]},
+        { t: 'relação entre textos e discursos:', c: [
+          'análise e produção de discursos nas diversas linguagens e contextos.',
+        ]},
+        { t: 'ferramentas digitais para leitura e escrita:', c: [
+          'uso de softwares de edição.',
+        ]},
+      ]},
+      'Contexto de produção, circulação e recepção de textos e de atos de linguagem diversos, em especial, da Cultura Audiovisual;',
+      { t: 'Produção de textos em gêneros próprios para a apreciação, especialmente para circulação na Cultura Digital:', c: [
+        { t: 'ferramentas digitais:', c: [
+          'ferramenta de gif, wiki, site.',
+        ]},
+      ]},
+    ]},
+    { title: 'PRÁTICAS DE ANÁLISE LINGUÍSTICA', items: [
+      { t: 'Análise e compreensão dos discursos produzidos por sujeitos e instituições em diferentes gêneros e campos de atuação:', c: [
+        'coesão e coerência;',
+        'operadores lógico-discursivos;',
+        'modalizadores discursivos;',
+        'marcas linguísticas que expressam posição de enunciação, considerando o contexto de produção.',
+      ]},
+      { t: 'Variedades linguísticas:', c: [
+        'usos.',
+      ]},
+      { t: 'Estilística:', c: [
+        'análise de estilos.',
+      ]},
+      'Morfossintaxe.',
+    ]},
+  ]
+},
+
+'li-2': {
+  label: 'Língua Inglesa', area: 'linguagens', years: [2],
+  blocks: [
+    { title: 'PRÁTICAS DE ESCUTA E ORALIDADE', items: [
+      'Escuta atenta, turno e tempo de fala;',
+      'Tomada de nota;',
+      { t: 'Compreensão geral e específica de textos orais:', c: [
+        { t: 'estratégias de leitura:', c: [
+          'conhecimento prévio sobre o tema para favorecer o estabelecimento de hipóteses sobre o que será ouvido;',
+          'atenção às informações que se deseja extrair do texto.',
+        ]},
+      ]},
+      { t: 'Efeitos de sentido:', c: [
+        { t: 'uso de recursos sonoros (volume, timbre, intensidade, pausas, ritmo, sincronização, entre outros):', c: [
+          'observação da entonação e da pontuação na oralidade (stress).',
+        ]},
+        'uso de recursos sonoros em combinação com recursos linguísticos e/ou multissemióticos.',
+      ]},
+      'Identificação de características da linguagem falada para o exercício "speaking";',
+      'Relação entre textos e contextos de produção de textos orais;',
+      { t: 'Planejamento, produção e edição de textos orais:', c: [
+        'produção de gêneros orais demarcados pelos atos de narrar, relatar, expor, argumentar e descrever ações, adequados às diferentes plataformas e ambientes para publicação.',
+      ]},
+    ]},
+    { title: 'PRÁTICAS DE LEITURA E ESCRITA', items: [
+      { t: 'Apreciação:', c: [
+        'avaliação de aspectos éticos, estéticos e políticos em textos e produções artísticas e culturais.',
+      ]},
+      { t: 'Réplica:', c: [
+        'posicionamento responsável em relação a temas, visões de mundo e ideologias veiculados por textos e atos de linguagem;',
+        'usos de recursos expressivos de diferentes linguagens.',
+      ]},
+      { t: 'Leitura e compreensão de textos escritos e multissemióticos:', c: [
+        { t: 'efeitos de sentido:', c: [
+          'intertextualidade e interdiscursividade;',
+          'levantamento de hipóteses e papel dos interlocutores;',
+          'presença de ironia, humor nos discursos.',
+        ]},
+        'observação da função dos sinais de pontuação para identificar informações adicionais ao texto;',
+        'identificação de ideias de causa e efeito, observando-se os marcadores discursivos;',
+        'reconhecimento de significados por meio de cognatos, sinônimos, entre outros indicadores;',
+        'identificação da oração principal e da ideia central do parágrafo;',
+        'observação da estrutura frasal e da necessidade de organizar conhecimentos gramaticais a partir dos contextos apresentados.',
+      ]},
+      { t: 'Produção de gêneros escritos demarcados pelos atos de narrar, relatar, expor, argumentar e descrever ações, adequados às diferentes plataformas e ambientes para publicação:', c: [
+        { t: 'produção de textos em gêneros próprios, especialmente em relação à cultura digital:', c: [
+          'publicação em mídias sociais.',
+        ]},
+      ]},
+    ]},
+    { title: 'PRÁTICAS DE ANÁLISE LINGUÍSTICA', items: [
+      { t: 'Análise e compreensão dos discursos produzidos por sujeitos e instituições em diferentes gêneros e campos de atuação:', c: [
+        'operadores lógico-discursivos;',
+        'modalizadores discursivos.',
+      ]},
+      'Influência da língua inglesa nas manifestações artísticas e culturais;',
+      { t: 'Terminologias técnicas e científicas e vocabulários específicos:', c: [
+        'dicionários bilíngues, vocabulários, glossários;',
+        'sinônimos, antônimos, siglas, abreviações e acrônimos.',
+      ]},
+      'Estruturas morfossintáticas e semânticas do vocabulário (processo de formação de palavras) empréstimos de outras línguas.',
+    ]},
+  ]
+},
+
+'ef-2': {
+  label: 'Educação Física', area: 'linguagens', years: [2],
+  blocks: [
+    { title: 'BRINCADEIRAS E JOGOS', items: [
+      { t: 'Brincadeiras:', c: [
+        'correlação das brincadeiras e jogos com o espaço de lazer;',
+        'brincadeiras e jogos enquanto fenômenos socioculturais.',
+      ]},
+      { t: 'Jogos:', c: [
+        { t: 'cooperativos:', c: [
+          { t: 'princípios:', c: [
+            'inclusão;',
+            'coletividade;',
+            'igualdade de direitos e deveres;',
+            'desenvolvimento humano;',
+            'processualidade.',
+          ]},
+        ]},
+        { t: 'eletrônicos:', c: [
+          'E-Sports.',
+        ]},
+      ]},
+    ]},
+    { title: 'ESPORTE', items: [
+      { t: 'Aspectos estruturais:', c: [
+        { t: 'classificação:', c: [
+          'esportes de rede/parede;',
+          'esportes de campo e taco;',
+          'esportes de marca e precisão;',
+          'esportes paralímpicos;',
+          { t: 'esportes alternativos:', c: [
+            'Tchoukball.',
+          ]},
+        ]},
+        'sistema tático e regras.',
+      ]},
+      'Espaços públicos e privados para a prática de esportes;',
+      { t: 'Influência das mídias nas práticas esportivas:', c: [
+        'violência e preconceito nas práticas esportivas;',
+        'o esporte enquanto espetáculo.',
+      ]},
+      'Organização de eventos esportivos.',
+    ]},
+    { title: 'DANÇA', items: [
+      { t: 'Aspectos estruturais:', c: [
+        { t: 'características e expressões da dança:', c: [
+          'dança urbana;',
+          'dança contemporânea.',
+        ]},
+      ]},
+      'A dança e a cultura jovem;',
+      'Diálogo entre a dança e os fenômenos socioculturais;',
+      'Práticas de dança no Brasil e no mundo.',
+    ]},
+    { title: 'GINÁSTICA', items: [
+      { t: 'Modalidades não competitivas:', c: [
+        'contorcionismo;',
+        'cerebral;',
+        'laboral;',
+        'localizada;',
+        'hidroginástica.',
+      ]},
+      { t: 'Ginástica de condicionamento físico:', c: [
+        'conscientização corporal;',
+        'foco na manutenção da saúde.',
+      ]},
+      'Recursos tecnológicos aplicados à prática da ginástica.',
+    ]},
+    { title: 'LUTA', items: [
+      { t: 'Aspectos estruturais:', c: [
+        { t: 'classificação:', c: [
+          'quanto ao número de lutadores;',
+          'quanto à previsibilidade das ações;',
+          'quanto à ação motora;',
+          'quanto à distância;',
+          'quanto ao surgimento histórico;',
+          'quanto ao tipo de contato.',
+        ]},
+      ]},
+      'Aspectos táticos, técnicos e filosóficos;',
+      { t: 'Organização de eventos e competições:', c: [
+        'práticas do Brasil e do mundo.',
+      ]},
+    ]},
+    { title: 'PRÁTICAS CORPORAIS DE AVENTURA', items: [
+      { t: 'Aspectos sociais e culturais:', c: [
+        'espaços e contextos da prática corporal de aventura;',
+        'preservação e conservação de patrimônio na prática corporal de aventura.',
+      ]},
+    ]},
+    { title: 'CORPO, MOVIMENTO E SAÚDE', items: [
+      { t: 'Corpo em movimento:', c: [
+        { t: 'fatores de risco à saúde:', c: [
+          'sedentarismo;',
+          'alimentação inadequada;',
+          'dietas e suplementos alimentares;',
+          'substâncias ilícitas, cigarro e álcool;',
+          'uso de substâncias proibidas (doping) e anabolizantes;',
+          'estresse e ausência de repouso;',
+          'doenças hipocinéticas correlacionadas ao exercício e à atividade física.',
+        ]},
+      ]},
+      { t: 'Práticas corporais e o cotidiano:', c: [
+        'as possibilidades da atividade física no dia a dia;',
+        'planejamento e organização de atividades físicas individuais e coletivas.',
+      ]},
+      { t: 'Investigação científica:', c: [
+        'fisiologia do movimento.',
+      ]},
+    ]},
+  ]
+},
+
+'mat-2': {
+  label: 'Matemática', area: 'mat', years: [2],
+  blocks: [
+    { title: 'NÚMEROS E ÁLGEBRA', items: [
+      { t: 'Funções:', c: [
+        'exponenciais e logarítmicas.',
+      ]},
+      'Logaritmo;',
+      'Sistemas de equações lineares;',
+      { t: 'Matrizes:', c: [
+        'conceito de matriz;',
+        'operações com matrizes.',
+      ]},
+      { t: 'Matemática Financeira:', c: [
+        'orçamento familiar;',
+        'indicadores econômicos;',
+        'taxas de juros;',
+        { t: 'sistemas de amortização e noções de fluxo de caixa:', c: [
+          'Sistema de Amortização Contínua – SAC;',
+          'Sistema de Amortização Francês – PRICE;',
+          'Sistema de Amortização MISTO.',
+        ]},
+      ]},
+    ]},
+    { title: 'GEOMETRIA E MEDIDAS', items: [
+      { t: 'Figuras geométricas:', c: [
+        'polígonos e polígonos regulares;',
+        { t: 'área e perímetro:', c: [
+          'polígonos;',
+          'razão entre as áreas de polígonos semelhantes.',
+        ]},
+        'congruência de triângulos (por transformações geométricas – isometrias);',
+        'semelhança entre triângulos (por transformações geométricas – homotetias).',
+      ]},
+      { t: 'Trigonometria:', c: [
+        'trigonometria no retângulo e suas principais razões trigonométricas;',
+        { t: 'trigonometria no círculo trigonométrico:', c: [
+          'seno;',
+          'cosseno;',
+          'tangente.',
+        ]},
+        'posição de figuras geométricas (tangente, secante, externa);',
+        'leis dos senos e cossenos;',
+        'funções trigonométricas.',
+      ]},
+      'Inscrição e circunscrição de sólidos geométricos.',
+    ]},
+    { title: 'PROBABILIDADE E ESTATÍSTICA', items: [
+      { t: 'Porcentagem e as aplicações práticas:', c: [
+        'cálculo de taxas;',
+        'índices;',
+        'coeficientes.',
+      ]},
+      { t: 'Estatística descritiva — frequências (absoluta e relativa):', c: [
+        { t: 'gráficos e diagramas estatísticos:', c: [
+          'histogramas, polígonos de frequências, diagrama de caixa, ramos e folhas, entre outros.',
+        ]},
+      ]},
+      'Índice de Desenvolvimento Humano (IDH).',
+    ]},
+  ]
+},
+
+'fis-2': {
+  label: 'Física', area: 'ciencias', years: [2],
+  blocks: [
+    { title: 'MATÉRIA E ENERGIA', items: [
+      { t: 'Quantização de energia:', c: [
+        'modelo de Bohr; dualidade onda-partícula.',
+      ]},
+      { t: 'Ondas eletromagnéticas:', c: [
+        'espectro eletromagnético; ondas de rádio; micro-ondas; radiações infravermelhas; radiações visíveis; radiações ultravioletas, raios X; raios gama.',
+      ]},
+      { t: 'Eletrostática:', c: [
+        'lei de Coulomb;',
+        'propriedade elétrica dos materiais (condutores e isolantes);',
+        'campo elétrico e campo magnético (lei de Oersted; lei de Faraday-Neumann; lei de Lenz).',
+      ]},
+      { t: 'Magnetismo:', c: [
+        'campo magnético; bússola; eletroímã.',
+      ]},
+      { t: 'Eletrodinâmica:', c: [
+        'corrente elétrica; resistores; leis de Ohm; equipamentos de medição elétrica; capacitores; energia e potência elétrica;',
+        'circuitos elétricos;',
+        'geradores e receptores elétricos (relação entre seus componentes e a transformação de energia; corrente contínua e alternada; transformadores).',
+      ]},
+    ]},
+    { title: 'VIDA, TERRA E COSMOS', items: [
+      { t: 'Espectroscopia:', c: [
+        'espectro de emissão; espectro de absorção; leis de Kirchhoff para espectroscopia.',
+      ]},
+      { t: 'Radiação:', c: [
+        'partículas elementares; força nuclear; fusão e fissão nuclear; aceleradores de partículas; modelo-padrão;',
+        'estrutura da matéria; fissão e fusão nuclear; radiação ionizante; radiação do corpo negro, decaimento radioativo;',
+        'faixas de frequências das radiações ionizantes e não ionizantes; laser; efeitos nos seres vivos.',
+      ]},
+      'Sensoriamento remoto da superfície da Terra.',
+    ]},
+    { title: 'TECNOLOGIA E LINGUAGEM CIENTÍFICA', items: [
+      { t: 'Óptica:', c: [
+        'princípios da propagação retilínea da luz; independência da luz; reversibilidade da luz; sombra e penumbra; espelhos; lentes; reflexão, refração e absorção da luz; instrumentos ópticos; espectro eletromagnético; óptica da visão.',
+      ]},
+      { t: 'Ondas sonoras:', c: [
+        'altura; frequência; timbre; intensidade; propagação; efeito Doppler; qualidades fisiológicas do som;',
+        'movimento harmônico e ondulatório.',
+      ]},
+      { t: 'Equipamentos elétricos e eletrônicos:', c: [
+        'tensão elétrica; potencial elétrico; unidades de medida; capacitores;',
+        'efeito fotoelétrico: transformação de radiação eletromagnética em corrente de fotoelétrons.',
+      ]},
+      { t: 'Eletrônica e informática:', c: [
+        'semicondutores; transistor; circuitos integrados; diodos.',
+      ]},
+      { t: 'Produção e consumo de energia elétrica:', c: [
+        'usinas hidrelétricas, termelétricas e eólicas;',
+        'fontes de energias alternativas.',
+      ]},
+      { t: 'Energia nuclear:', c: [
+        'acidentes nucleares.',
+      ]},
+      { t: 'Mecânica:', c: [
+        'hidrostática e hidrodinâmica.',
+      ]},
+      { t: 'Investigação científica:', c: [
+        'definição da situação-problema, objeto de pesquisa, justificativa, elaboração da hipótese, revisão da literatura, experimentação e simulação, coleta e análise de dados, precisão das medidas, elaboração de gráficos e tabelas, discussão argumentativa, construção e apresentação de conclusões.',
+      ]},
+      { t: 'Divulgação e comunicação de resultados, conclusões e propostas pautados em discussões, argumentos, evidências e linguagem científica:', c: [
+        'Feira de Ciências, Olimpíadas, canais digitais, jornal, rádio, painéis informativos, seminários e debates.',
+      ]},
+      { t: 'Leitura e interpretação de temas voltados às Ciências da Natureza e suas Tecnologias, utilizando fontes confiáveis:', c: [
+        'dados estatísticos; gráficos e tabelas; infográficos; textos de divulgação científica; mídias; sites; artigos científicos.',
+      ]},
+    ]},
+  ]
+},
+
+'qui-2': {
+  label: 'Química', area: 'ciencias', years: [2],
+  blocks: [
+    { title: 'MATÉRIA E ENERGIA', items: [
+      { t: 'Termoquímica:', c: [
+        'entalpia das reações químicas, composição, variáveis que influenciam, cálculo e balanço energético, variação de energia.',
+      ]},
+      { t: 'Tabela Periódica:', c: [
+        'características dos radioisótopos;',
+        'reatividade dos elementos químicos.',
+      ]},
+      'Fontes alternativas de obtenção de energia elétrica;',
+      'Impactos ambientais causados pela implementação de usinas hidrelétricas, térmicas e termonucleares;',
+      { t: 'Transformações químicas que envolvem corrente elétrica:', c: [
+        'pilhas, baterias e o processo da eletrólise.',
+      ]},
+    ]},
+    { title: 'VIDA, TERRA E COSMOS', items: [
+      'Evolução dos modelos atômicos;',
+      'Ligações químicas;',
+      'Forças de interação interpartículas;',
+      'Rapidez das transformações químicas;',
+      'Equilíbrio químico;',
+      { t: 'Química ambiental:', c: [
+        'políticas ambientais, parâmetros qualitativos e quantitativos: dos gases poluentes na atmosfera; dos resíduos e substâncias encontradas nas águas; dos contaminantes do solo e dos aterros sanitários.',
+      ]},
+      { t: 'Compostos orgânicos:', c: [
+        { t: 'funções orgânicas:', c: [
+          'estrutura, propriedades e características para a saúde humana.',
+        ]},
+      ]},
+      'Interações intermoleculares e estrutura dos aminoácidos, proteínas, DNA e RNA.',
+    ]},
+    { title: 'TECNOLOGIA E LINGUAGEM CIENTÍFICA', items: [
+      { t: 'Investigação científica:', c: [
+        'definição da situação-problema, objeto de pesquisa, justificativa, elaboração da hipótese, revisão da literatura, experimentação e simulação, coleta e análise de dados, precisão das medidas, elaboração de gráficos e tabelas, discussão argumentativa, construção e apresentação de conclusões.',
+      ]},
+      { t: 'Divulgação e comunicação de resultados, conclusões e propostas pautados em discussões, argumentos, evidências e linguagem científica:', c: [
+        'Feira de Ciências, Olimpíadas, canais digitais, jornal, rádio, painéis informativos, seminários e debates.',
+      ]},
+      { t: 'Leitura e interpretação de temas voltados às Ciências da Natureza e suas Tecnologias, utilizando fontes confiáveis:', c: [
+        'dados estatísticos; gráficos e tabelas; infográficos; textos de divulgação científica; mídias; sites; artigos científicos.',
+      ]},
+      { t: 'Materiais:', c: [
+        'propriedades físico-químicas, estruturas, composições, características, toxicidade.',
+      ]},
+      { t: 'Produção e aplicação:', c: [
+        'ferro-gusa, cobre, cal, alumínio, aço, soda cáustica, hipoclorito de sódio, polímeros, amônia.',
+      ]},
+      'Materiais, combustíveis e energias alternativas (novas tecnologias);',
+      { t: 'Plásticos:', c: [
+        'Polímeros.',
+      ]},
+      { t: 'Alimentos:', c: [
+        'estrutura e propriedades dos compostos orgânicos (proteínas, carboidratos, lipídios, vitaminas).',
+      ]},
+      'Alimentação saudável e nutritiva;',
+      'Agrotóxicos e alimentos;',
+      { t: 'Abordagens sociais, ambientais e culturais — demandas e possíveis soluções:', c: [
+        { t: 'transformações químicas que envolvem corrente elétrica:', c: [
+          'processos da eletrólise (galvanoplastia), pilhas e baterias (formação de resíduos, utilização, descarte).',
+        ]},
+        'entalpia de combustão (eficiência energética);',
+        'recursos não renováveis (gasolina, diesel) e renováveis (biodiesel, biogás, etanol) — impactos ambientais e sustentabilidade;',
+        'impactos ambientais e descarte adequado;',
+        'efeito estufa e aquecimento global;',
+        'lixo eletrônico (descarte consciente).',
+      ]},
+    ]},
+  ]
+},
+
+'bio-2': {
+  label: 'Biologia', area: 'ciencias', years: [2],
+  blocks: [
+    { title: 'VIDA, TERRA E COSMOS', items: [
+      { t: 'Origem e evolução da vida:', c: [
+        'teorias científicas sobre a origem da vida;',
+        'teorias científicas sobre evolução (histórico e experimentos);',
+        'conceito de espécie;',
+        'evolução (árvores filogenéticas);',
+        'darwinismo social (eugenia e discriminação).',
+      ]},
+      { t: 'Citologia:', c: [
+        'níveis de organização celular (tipo, número e complexidade).',
+      ]},
+      { t: 'Fisiologia animal comparada:', c: [
+        'fisiologia (comparação dos sistemas fisiológicos nas formas de vida).',
+      ]},
+    ]},
+    { title: 'BIOLOGIA MOLECULAR E GENÉTICA', items: [
+      'variabilidade gênica e as Leis de Mendel;',
+      'modificações na 1ª e 2ª lei de Mendel;',
+      'Polialelia (ABO);',
+      'Biotecnologia;',
+      'Bioética aplicada à Biotecnologia;',
+      'aplicações da Biotecnologia (clonagem, transgenia, controle de pragas, terapias gênicas e tratamentos);',
+      'densidade populacional (natalidade, mortalidade e expectativa de vida).',
+    ]},
+    { title: 'TECNOLOGIA E LINGUAGEM CIENTÍFICA', items: [
+      { t: 'Investigação científica:', c: [
+        'definição da situação-problema, objeto de pesquisa, justificativa, elaboração da hipótese, revisão da literatura, experimentação e simulação, coleta e análise de dados, precisão das medidas, elaboração de gráficos e tabelas, discussão argumentativa, construção e apresentação de conclusões.',
+      ]},
+      { t: 'Divulgação e comunicação de resultados, conclusões e propostas pautados em discussões, argumentos, evidências e linguagem científica:', c: [
+        'Feira de Ciências, Olimpíadas, canais digitais, jornal, rádio, painéis informativos, seminários e debates.',
+      ]},
+      { t: 'Leitura e interpretação de temas voltados às Ciências da Natureza e suas Tecnologias, utilizando fontes confiáveis:', c: [
+        'dados estatísticos; gráficos e tabelas; infográficos; textos de divulgação científica; mídias; sites; artigos científicos.',
+      ]},
+    ]},
+  ]
+},
+
+'his-2': {
+  label: 'História', area: 'humanas', years: [2],
+  blocks: [
+    { title: 'TEMPO E ESPAÇO', items: [
+      { t: 'Memória, cultura, identidade e diversidade:', c: [
+        'a produção do conhecimento histórico e suas narrativas na origem dos povos do Oriente Médio, Ásia, Europa, América e África como registro e construção da memória, cultura, identidade e diversidade.',
+      ]},
+      { t: 'A construção do discurso civilizatório em diferentes contextos e seus desdobramentos (Iluminismo, Imperialismo e Neocolonialismo):', c: [
+        'organização e funcionamento da sociedade na inter-relação entre indivíduo e coletividade, a partir das diferentes matrizes conceituais (etnocentrismo, cultura, entre outras).',
+      ]},
+      { t: 'A dinâmica da inter-relação entre indivíduo e coletividade, a partir das diferentes matrizes conceituais (etnocentrismo, cultura, tipologias sociais, entre outras):', c: [
+        'África, o berço da humanidade;',
+        'diferentes momentos da história pré-escrita: Paleolítico e Neolítico;',
+        'as Civilizações Fluviais — povos da Mesopotâmia e Egito Antigo;',
+        'indígenas na América — Incas, Maias e Astecas;',
+        'indígenas no Brasil;',
+        'a herança cultural e a valorização da memória e do patrimônio histórico material e imaterial;',
+        'as imagens e seus diferentes suportes: informação e comunicação política e social ao longo das temporalidades históricas.',
+      ]},
+      { t: 'A formação da economia das nações, seu desenvolvimento histórico e seu papel na organização social:', c: [
+        'Grécia Antiga: formação, ocupação e hegemonia;',
+        'Roma Antiga: formação, ocupação, expansão territorial e intercâmbio cultural.',
+      ]},
+      { t: 'As mudanças do capitalismo, da Revolução Industrial ao Imperialismo e frente a outros eventos históricos:', c: [
+        'crise do Império Romano, a formação dos feudos, o surgimento do feudalismo, a organização e as relações sociais na Idade Média;',
+        'crise do sistema feudal, as grandes navegações, o Mercantilismo e suas características;',
+        'fase comercial do capitalismo no século XVI;',
+        'o avanço das revoluções tecnológicas e do capitalismo;',
+        'Revolução Industrial e o capitalismo comercial e industrial;',
+        'Imperialismo, capitalismo comercial, industrial e financeiro.',
+      ]},
+      { t: 'Contribuições das revoluções Mexicana e Russa para as configurações históricas no cenário mundial:', c: [
+        'promulgação da Constituição Mexicana de 1917;',
+        'Revolução Russa de 1917.',
+      ]},
+      'As lutas democráticas e a construção da democracia nas Américas;',
+      'A herança cultural e a valorização da memória e do patrimônio histórico material e imaterial;',
+      'As bases históricas dos discursos dicotômicos e sua desconstrução na organização da sociedade contemporânea (civilizados e bárbaros, atraso e desenvolvimento, entre outros).',
+    ]},
+    { title: 'TERRITÓRIO E FRONTEIRA', items: [
+      { t: 'Formação dos Estados nacionais: princípios e elementos de composição do Estado e formas de governo, nação e sociedade sem Estado:', c: [
+        'a formação dos Estados Nacionais — Inglaterra, França, Espanha e Portugal — O Absolutismo e o Antigo Regime;',
+        'formação dos Estados Unidos;',
+        'a Revolução Inglesa;',
+        'a Revolução Francesa.',
+      ]},
+      'Processos migratórios, suas motivações e desdobramentos (questões étnicas, xenofobia e conflitos territoriais);',
+      'As diferentes lógicas do capitalismo e suas dimensões nas sociedades contemporâneas: tecnologia, globalização e dinâmica produtiva;',
+      { t: 'Estados e organismos internacionais:', c: [
+        'protecionismo, multilateralismo e governança global.',
+      ]},
+    ]},
+    { title: 'INDIVÍDUO, NATUREZA, SOCIEDADE, CULTURA E ÉTICA', items: [
+      'Os impactos dos avanços técnico-científicos informacionais da indústria cultural e de massa e seus usos no sistema capitalista;',
+      { t: 'Instituições, Estados, indivíduos e o desenvolvimento sustentável:', c: [
+        'infraestrutura, governança ambiental no Brasil e em diferentes países do mundo.',
+      ]},
+      { t: 'Princípios democráticos e seus processos históricos:', c: [
+        'os mecanismos de promoção e proteção de direitos: a construção da cidadania na história em diferentes épocas.',
+      ]},
+      'Dominação e resistência das populações indígenas e afrodescendentes diante da ofensiva civilizatória: silenciamento dos saberes;',
+      { t: 'O uso institucional (político, social e cultural) da violência: regimes ditatoriais e totalitários, golpes de Estado e terrorismo, Apartheid na África do Sul e segregação étnico-racial no mundo:', c: [
+        'diáspora africana e seus efeitos na formação das sociedades latino-americanas.',
+      ]},
+    ]},
+    { title: 'POLÍTICA E TRABALHO', items: [
+      'Instituições, Estados, indivíduos e o desenvolvimento sustentável;',
+      'Os blocos de poder e os organismos internacionais: a economia globalizada, a partir das ações de organismos internacionais como FMI, OMC e Banco Mundial;',
+      'Infraestrutura, governança ambiental no Brasil e em diferentes países do mundo;',
+      'A produção técnica e impactos socioeconômicos em diferentes tempos e lugares: a trajetória histórica de diferentes sociedades e seus impactos ambientais em âmbito local, regional e global;',
+      { t: 'Modos de produção, formas de trabalho e seus desdobramentos em diferentes sociedades, considerando as mudanças técnicas, tecnológicas e informacionais ocorridas (trabalho escravo, servil e assalariado e os perfis sociais das diferentes ocupações):', c: [
+        'estratificação social no Brasil, na América Latina e em outros países do mundo;',
+        'séculos XIX e XX — entre o Império e a República no Brasil e a Independência das Américas;',
+        'a produção do café, exportação, industrialização e a urbanização no Brasil;',
+        'desenvolvimento da indústria têxtil na Europa e a monocultura do algodão no Brasil;',
+        'a economia da borracha — o uso comercial da seringueira e a exploração da Floresta Amazônica.',
+      ]},
+      'Trabalho, política e pensamento econômico, a partir do século XIX: estratificação social no Brasil, na América Latina e em outros países do mundo;',
+      'Grupos sociais da sociedade brasileira e sua composição heterogênea: a distribuição de renda e as condições de existência de indígenas, mulheres, quilombolas, camponeses, populações ribeirinhas, população rural e urbana, em diferentes tempos e espaços.',
+    ]},
+  ]
+},
+
+'geo-2': {
+  label: 'Geografia', area: 'humanas', years: [2],
+  blocks: [
+    { title: 'TEMPO E ESPAÇO', items: [
+      { t: 'As relações entre espaço, sociedade, natureza, trabalho e tempo:', c: [
+        'transformações antrópicas no meio físico em diferentes sociedades.',
+      ]},
+      { t: 'Sociedades tradicionais e urbano-industriais:', c: [
+        'as transformações da paisagem e do território pelo modo de vida e pela ocupação do espaço.',
+      ]},
+      'Patrimônio natural, a conservação e o papel do turismo sustentável;',
+      { t: 'Os processos de transformação da paisagem em diferentes sociedades:', c: [
+        'espaço urbano e rural: conflitos pela terra, interesses divergentes e ambiguidades.',
+      ]},
+      { t: 'A problemática socioambiental e a relação com as classes sociais e a estratificação social:', c: [
+        'a dinâmica da natureza e os impactos causados pela ação antrópica.',
+      ]},
+      { t: 'Transformações antrópicas no meio físico em diferentes sociedades:', c: [
+        'a dinâmica da natureza e os impactos causados pela ação antrópica.',
+      ]},
+      'Conceitos e práticas sobre a relação sociedade e natureza; mundo contemporâneo e redes globalizadas.',
+    ]},
+    { title: 'TERRITÓRIO E FRONTEIRA', items: [
+      'Cartografia e geotecnologias aplicadas à representação do espaço geográfico;',
+      'Tratamento cartográfico de fatos, situações, fenômenos, lugares representativos e análise de territórios;',
+      { t: 'A geopolítica e seus desdobramentos na produção, circulação e consumo responsável:', c: [
+        'fronteiras culturais: integração e exclusão sociocultural.',
+      ]},
+      { t: 'O pensamento geográfico e as diferentes concepções da geopolítica:', c: [
+        'potências mundiais: fronteiras, territórios e territorialidades;',
+        'organismos internacionais e políticas de administração nacionais.',
+      ]},
+      'Indústria, urbanização e dinâmicas territoriais;',
+      { t: 'Desigualdade no território: diferentes formas de ocupação em diferentes espaços:', c: [
+        'transição demográfica, população economicamente ativa e ocupação das áreas urbanas.',
+      ]},
+    ]},
+    { title: 'INDIVÍDUO, NATUREZA, SOCIEDADE, CULTURA E ÉTICA', items: [
+      { t: 'Riscos e desastres: vulnerabilidade e insegurança ambiental:', c: [
+        'mudanças climáticas: as estratégias e instrumentos internacionais de promoção das políticas ambientais.',
+      ]},
+      'As políticas públicas para o meio ambiente e os impactos de anúncios e publicidade de estímulo ao consumo;',
+      'A igualdade e o respeito à diversidade: a institucionalização dos Direitos Humanos;',
+      { t: 'Representação cartográfica da violência:', c: [
+        'o discurso da violência nas campanhas políticas, propagandas ideológicas, redes sociais e no uso político de Fake News.',
+      ]},
+      'Delimitação e demarcação de terras e as questões indígenas e quilombolas.',
+    ]},
+    { title: 'POLÍTICA E TRABALHO', items: [
+      'Mudanças climáticas, desastres ambientais e insegurança ambiental;',
+      'Política ambiental, estratégias e instrumentos de preservação e conservação dos recursos naturais;',
+      { t: 'Impactos socioeconômicos, socioambientais e na biodiversidade:', c: [
+        'as práticas agropecuárias e extrativas;',
+        'a cadeia produtiva do petróleo, dos minérios, desmatamento, o assoreamento, as queimadas, a erosão, a poluição do ar, do solo e das águas.',
+      ]},
+      { t: 'Os desafios do agronegócio para o uso e gestão dos recursos naturais de forma sustentável:', c: [
+        'padrões de industrialização e os riscos ao meio ambiente em diferentes países do mundo.',
+      ]},
+      { t: 'A produção de mercadorias, o consumo e o descarte de resíduos:', c: [
+        'o papel do Estado, da sociedade e do indivíduo.',
+      ]},
+      'O Meio Técnico, Científico e Informacional e os impactos no uso do território pelas relações do mundo do trabalho;',
+      { t: 'Indicadores socioeconômicos:', c: [
+        'conceito, aplicação e análise em diferentes escalas e lugares;',
+        'a composição das desigualdades sociais em diferentes tempos e espaços.',
+      ]},
+      { t: 'Posicionamentos de organismos internacionais, como ONU, FMI, Conselho de Segurança, OMC, OIT, OMS, UNESCO e Banco Mundial frente às demandas das sociedades globais e locais:', c: [
+        'os organismos internacionais e a economia globalizada, suas influências junto a Estados Nacionais, (des)respeitando sua governança.',
+      ]},
+      'A dinâmica da população brasileira no mundo contemporâneo.',
+    ]},
+  ]
+},
+
+// ══════════════ 3ª SÉRIE ══════════════
+
+'lp-3': {
+  label: 'Língua Portuguesa', area: 'linguagens', years: [3],
+  blocks: [
+    { title: 'PRÁTICAS DE ESCUTA E ORALIDADE', items: [
+      { t: 'Práticas de oralidade:', c: [
+        'escuta atenta, turno e tempo de fala;',
+        'tomada de nota;',
+        'estratégias e procedimentos de leitura de textos orais;',
+        'discussão de temas controversos de interesse e/ou relevância social;',
+        { t: 'participação em debates, assembleias e fóruns de discussão:', c: [
+          'seleção e uso de argumentos para defesa de opiniões.',
+        ]},
+      ]},
+      { t: 'Planejamento, produção e edição de playlists:', c: [
+        'consideração do contexto de produção, circulação e recepção;',
+        'usos expressivos de recursos linguísticos e paralinguísticos;',
+        'uso de softwares de edição de som.',
+      ]},
+      { t: 'Produção oral pelo uso de recursos multissemióticos, de forma individual e coletiva:', c: [
+        'uso de softwares de edição.',
+      ]},
+    ]},
+    { title: 'PRÁTICAS DE LEITURA E ESCRITA', items: [
+      { t: 'Apreciação:', c: [
+        'avaliação de aspectos éticos, estéticos e políticos em textos e produções artísticas e culturais etc.',
+      ]},
+      { t: 'Réplica:', c: [
+        'posicionamento responsável em relação a temas, visões de mundo e ideologias veiculados por textos e atos de linguagem.',
+      ]},
+      { t: 'Contexto de produção (e/ou reconstrução), circulação e recepção de Textos Escritos e Multissemióticos:', c: [
+        'planejamento, produção e edição de textos escritos e multissemióticos;',
+        'reconstrução da textualidade e compreensão dos efeitos de sentidos provocados pelos usos de recursos linguísticos e multissemióticos;',
+        'reconstrução das condições de produção, circulação e recepção de textos;',
+        { t: 'produção escrita pelo uso de recursos multissemióticos, de forma individual e coletiva:', c: [
+          'uso de softwares de edição.',
+        ]},
+        'relação entre textos e discursos;',
+      ]},
+      { t: 'Contexto de produção, circulação e recepção de Textos Legais e Normativos:', c: [
+        'curadoria de informação;',
+        'regularidades de gêneros de textos legais e normativos;',
+        'identificação e inferência de motivações e/ou finalidades para ampliação da compreensão de textos normativos e documentos legais.',
+      ]},
+      { t: 'Condições de produção (e/ou reconstrução), circulação e recepção de Textos Artístico-literários:', c: [
+        'visões de mundo, diálogos com outros textos, inserções em movimentos estéticos e culturais etc.;',
+        'estrutura da composição, estilo, aspectos discursivos;',
+        { t: 'repertórios de leitura e apreciação:', c: [
+          'literatura brasileira, portuguesa, indígena, africana e latino-americana.',
+        ]},
+        'efeitos de sentido apreendidos em textos literários;',
+        { t: 'desenvolvimento da perspectiva crítica:', c: [
+          'livros, filmes, discos, canções, espetáculos de teatro e dança, exposições etc. (resenhas, vlogs e podcasts literários e artísticos, playlists comentadas, fanzines, e-zines etc.).',
+        ]},
+        { t: 'organização e participação em eventos culturais:', c: [
+          'saraus, competições orais, audições; mostras, festivais, feiras culturais e literárias, rodas e clubes de leitura, cooperativas culturais, jograis, repentes, slams.',
+        ]},
+      ]},
+      { t: 'Produção de textos em Gêneros Próprios para a apreciação, especialmente para circulação da cultura digital:', c: [
+        'paródias, estilizações, fanfics, fanclipes etc.',
+      ]},
+      { t: 'Contexto de produção, circulação e recepção de Textos de Divulgação Científica:', c: [
+        { t: 'compreensão dos processos de produção do conhecimento científico:', c: [
+          'curadoria de informação;',
+          'curadoria de informação em fontes confiáveis;',
+          'curadoria de informação com posicionamento crítico;',
+          'regularidades dos gêneros de divulgação científica;',
+          'organização tópico-discursiva;',
+          'seleção, utilização e elaboração de instrumentos de coletas de dados e informações;',
+          'análise dos dados coletados.',
+        ]},
+        'texto monográfico, ensaio, artigo de divulgação científica, verbete de enciclopédia (colaborativa ou não), infográfico (estático ou animado), relato de experimento, relatório, relatório multimidiático de campo, reportagem científica, podcast ou vlog científico, apresentações orais, seminários, comunicações em mesas redondas, mapas dinâmicos etc.',
+      ]},
+      'Contexto de produção e circulação de Textos do Campo Estudo e Pesquisa: pesquisa bibliográfica, de campo, experimento científico, levantamento de dados etc.;',
+      'Análise dos processos de curadoria de informação em Ambiente Digital;',
+      { t: 'Contexto de produção, circulação e recepção de textos no Campo Jornalístico-Midiático:', c: [
+        'relação entre os gêneros em circulação, mídias e práticas da cultura digital;',
+        { t: 'produção de textos neste campo:', c: [
+          'processo.',
+        ]},
+        'uso de diferentes mídias;',
+        'papel de repórter, analista, crítico, editorialista ou articulista, leitor, vlogueiro e booktuber, entre outros;',
+        'relação com o contexto de produção e experimentação de papéis sociais;',
+        'notícias, foto denúncias, fotorreportagens, reportagens multimidiáticas, documentários, infográficos, podcasts noticiosos, artigos de opinião, críticas da mídia, vlogs de opinião, textos de apresentação e apreciação de produções culturais (resenhas, ensaios etc.), gêneros próprios das formas de expressão das culturas juvenis (vlogs e podcasts culturais, gameplay etc.)',
+      ]},
+      'Condições de produção, circulação e recepção de textos e atos de linguagem, em Práticas de Participação Social e das Culturas Juvenis.',
+    ]},
+    { title: 'PRÁTICAS DE ANÁLISE LINGUÍSTICA', items: [
+      { t: 'Dialogia e relações entre textos:', c: [
+        'intertextualidade e interdiscursividade;',
+        'relações intertextuais e interdiscursivas entre obras de diferentes autores e gêneros.',
+      ]},
+      'Usos de recursos linguísticos e multissemióticos e seus efeitos de sentido;',
+      'Aspectos procedimentais envolvidos para a realização de pesquisas;',
+      'Morfossintaxe.',
+    ]},
+  ]
+},
+
+'li-3': {
+  label: 'Língua Inglesa', area: 'linguagens', years: [3],
+  blocks: [
+    { title: 'PRÁTICAS DE ESCUTA E ORALIDADE', items: [
+      'Escuta atenta, turno e tempo de fala;',
+      'Tomada de nota;',
+      { t: 'Compreensão geral e específica de textos orais:', c: [
+        { t: 'estratégias de leitura:', c: [
+          'conhecimento prévio sobre o tema para favorecer o estabelecimento de hipóteses sobre o que será ouvido;',
+          'atenção às informações que se deseja extrair do texto.',
+        ]},
+      ]},
+      'Identificação de características da linguagem falada para o exercício "speaking";',
+      { t: 'Planejamento, produção e edição de textos orais:', c: [
+        'observação da entonação e da pontuação na oralidade (stress);',
+        'produção de gêneros orais demarcados pelos atos de narrar, relatar, expor, argumentar e descrever ações, adequados às diferentes plataformas e ambientes para publicação.',
+      ]},
+    ]},
+    { title: 'PRÁTICAS DE LEITURA E ESCRITA', items: [
+      { t: 'Apreciação:', c: [
+        'avaliação de aspectos éticos, estéticos e políticos em textos e produções artísticas e culturais.',
+      ]},
+      { t: 'Réplica:', c: [
+        'posicionamento responsável em relação a temas, visões de mundo e ideologias veiculados por textos e atos de linguagem.',
+      ]},
+      { t: 'Leitura e compreensão de textos escritos e multissemióticos:', c: [
+        'distinção entre fatos e opiniões;',
+        'identificação de posicionamentos, pontos de vista, ideias favoráveis e/ou contrárias que sirvam de argumento ou justificativa em um texto;',
+        'identificação de modificadores de substantivos, verbos ou adjetivos presentes na produção textual;',
+        'abordagens de contextos corporativos, esportivos, culturais, turísticos, gastronômicos, em meios de transportes, em eventos, entre outros.',
+      ]},
+      { t: 'Planejamento e produção de textos escritos e multissemióticos:', c: [
+        { t: 'produção de gêneros escritos demarcados pelos atos de narrar, relatar, expor, argumentar e descrever ações, adequados aos diferentes ambientes para publicação:', c: [
+          { t: 'elaboração de textos em gêneros próprios, especialmente em relação às mídias sociais da cultura digital.', c: [] },
+        ]},
+      ]},
+    ]},
+    { title: 'PRÁTICAS DE ANÁLISE LINGUÍSTICA', items: [
+      { t: 'Terminologias técnicas e científicas e vocabulários específicos:', c: [
+        'dicionários bilíngues, vocabulários, glossários;',
+        'sinônimos, antônimos, siglas, abreviações e acrônimos.',
+      ]},
+      'Estruturas morfossintáticas e semânticas do vocabulário (processo de formação de palavras) empréstimos de outras línguas;',
+      'Recursos morfossintáticos;',
+      'Modificadores de substantivos, verbos e adjetivos;',
+      { t: 'Estudo da diversidade cultural dos principais países falantes da língua inglesa:', c: [
+        'cultura e tradições;',
+        'elementos protocolares;',
+        'costumes regionais;',
+        { t: 'organização de procedimentos básicos para viagens:', c: [
+          'tiragem de passaporte;',
+          'vistos de entrada e permanência;',
+          'moedas estrangeiras;',
+          'fusos horários;',
+          'exigências alfandegárias;',
+          'uso de formulários para atendimentos padronizados.',
+        ]},
+      ]},
+    ]},
+  ]
+},
+
+'le-3': {
+  label: 'Língua Espanhola', area: 'linguagens', years: [3],
+  blocks: [
+    { title: 'PRÁTICAS DE ESCUTA E ORALIDADE', items: [
+      { t: 'A língua espanhola no mundo hispanofalante:', c: [
+        'variedades linguísticas e particularidades socioculturais.',
+      ]},
+      'Escuta atenta, turno e tempo de fala;',
+      'Tomada de nota;',
+      { t: 'Compreensão geral e específica de textos orais:', c: [
+        { t: 'estratégias de leitura:', c: [
+          'conhecimento prévio sobre o tema para favorecer o estabelecimento de hipóteses sobre o que será ouvido;',
+          'atenção às informações que se deseja extrair do texto.',
+        ]},
+      ]},
+      'Identificação de características da linguagem falada para o exercício "hablando";',
+      { t: 'Efeitos de sentidos em textos de natureza oral:', c: [
+        'linguagem figurada.',
+      ]},
+      { t: 'Planejamento, produção e edição de textos orais:', c: [
+        'uso de recursos sonoros (volume, timbre, intensidade, pausas, ritmo, sincronização, entre outros);',
+        'observação da entonação e da pontuação na oralidade;',
+        'produção de gêneros orais demarcados pelos atos de narrar, relatar, expor, argumentar e descrever ações, adequados às diferentes plataformas e ambientes para publicação.',
+      ]},
+    ]},
+    { title: 'PRÁTICAS DE LEITURA E ESCRITA', items: [
+      { t: 'Apreciação:', c: [
+        'avaliação de aspectos éticos, estéticos e políticos em textos e produções artísticas e culturais.',
+      ]},
+      { t: 'Réplica:', c: [
+        'posicionamento responsável em relação a temas, visões de mundo e ideologias veiculados por textos e atos de linguagem.',
+      ]},
+      { t: 'Leitura e compreensão de textos escritos e multissemióticos:', c: [
+        'distinção entre fatos e opiniões;',
+        'identificação de posicionamentos, pontos de vista, ideias favoráveis e/ou contrárias que sirvam de argumentos ou justificativas em um texto;',
+        'identificação de modificadores de substantivos, verbos ou adjetivos presentes na produção textual;',
+        'abordagens de contextos corporativos, esportivos, culturais, turísticos, gastronômicos, em meios de transportes, em eventos, entre outros.',
+      ]},
+      { t: 'Planejamento e produção de textos escritos e multissemióticos:', c: [
+        { t: 'produção de gêneros escritos demarcados pelos atos de narrar, relatar, expor, argumentar e descrever ações, adequados aos diferentes ambientes para publicação:', c: [
+          { t: 'elaboração de textos em gêneros próprios, especialmente em relação às mídias sociais da cultura digital.', c: [] },
+        ]},
+        { t: 'prática de leitura e construção de repertórios específicos:', c: [
+          { t: 'textos técnicos voltados à área de interesse do estudante nos mais diferentes meios midiáticos e sociais: livros, propagandas, páginas da Internet, blogs, redes sociais, jornais e revistas eletrônicas ou físicas.', c: [] },
+        ]},
+        { t: 'produção e interação discursiva:', c: [
+          { t: 'utilização de diversas linguagens e ferramentas (vídeo, podcast, apresentação, esquete etc.);', c: [] },
+          'apresentação pessoal, solicitação de algo, fazer agradecimentos, desejar boas-vindas, comunicação em ambientes, como, por exemplo, restaurantes, entrevistas de emprego, entre outras possibilidades de interação.',
+        ]},
+      ]},
+    ]},
+    { title: 'PRÁTICAS DE ANÁLISE LINGUÍSTICA', items: [
+      { t: 'Terminologias técnicas e científicas e vocabulários específicos:', c: [
+        'dicionários bilíngues, vocabulários, glossários;',
+        'sinônimos, antônimos, siglas, abreviações e acrônimos.',
+      ]},
+      'Estruturas morfossintáticas e semânticas do vocabulário (processo de formação de palavras); empréstimos de outras línguas;',
+      'Conceitos gramaticais necessários para a organização das linguagens formal e informal;',
+      { t: 'elementos gramaticais:', c: [
+        'alfabeto, verbos regulares e irregulares no presente do indicativo, no futuro imperfeito do indicativo, no pretérito imperfeito e no subjuntivo, artigos e contrações, pronomes pessoais, interrogativos e indefinidos, pontuação, numerais e marcadores temporais;',
+        'elementos gramaticais aplicados a aspectos situacionais: saudações e despedidas, características físicas e psicológicas, apresentação pessoal, profissões, horas, dias, meses e estações do ano.',
+      ]},
+      { t: 'Estudo da diversidade cultural dos principais países falantes de espanhol enquanto língua oficial:', c: [
+        'cultura e tradições;',
+        'elementos protocolares;',
+        'costumes regionais;',
+        { t: 'organização de procedimentos básicos para viagens:', c: [
+          'tiragem de passaporte;',
+          'vistos de entrada e permanência;',
+          'moedas estrangeiras;',
+          'fusos horários;',
+          'exigências alfandegárias;',
+          'uso de formulários para atendimentos padronizados.',
+        ]},
+      ]},
+    ]},
+  ]
+},
+
+'mat-3': {
+  label: 'Matemática', area: 'mat', years: [3],
+  blocks: [
+    { title: 'NÚMEROS E ÁLGEBRA', items: [
+      { t: 'Matemática Computacional:', c: [
+        'conceito e aplicações;',
+        { t: 'noções elementares:', c: [
+          'sequências, laços de repetição, variável e condicionais.',
+        ]},
+        { t: 'lógica de programação:', c: [
+          { t: 'algoritmos:', c: [
+            'fluxogramas; modelagem de problemas e de soluções.',
+          ]},
+        ]},
+        'linguagem da programação estruturada.',
+      ]},
+    ]},
+    { title: 'GEOMETRIA E MEDIDAS', items: [
+      { t: 'Polígonos:', c: [
+        'polígonos regulares e irregulares (características);',
+        'ladrilhamento do plano;',
+        { t: 'áreas de figuras geométricas:', c: [
+          'pavimentações no plano (com o mesmo tipo de polígono ou não).',
+        ]},
+      ]},
+      { t: 'Geometria espacial:', c: [
+        'postulados (retas e planos);',
+        'paralelismo e perpendicularismo no espaço;',
+        'projeção ortogonal;',
+        'poliedros e corpos redondos;',
+        'sólidos geométricos (prismas, pirâmides, cilindros, cones e esfera);',
+        'área total e volume de prismas, pirâmides e corpos redondos;',
+        'noções básicas de cartografia (projeção cilíndrica e cônica).',
+      ]},
+      { t: 'Geometria analítica:', c: [
+        'ponto e reta;',
+        'formas da equação da reta, paralelismo e perpendicularidade;',
+        'equação da circunferência.',
+      ]},
+    ]},
+    { title: 'PROBABILIDADE E ESTATÍSTICA', items: [
+      { t: 'Probabilidade simples e condicional:', c: [
+        'espaços amostrais discretos ou contínuos;',
+        'eventos equiprováveis ou não equiprováveis;',
+        'eventos sucessivos, mutuamente exclusivos e não mutuamente exclusivos.',
+      ]},
+      { t: 'Contagem de possibilidades:', c: [
+        { t: 'modelos para contagem de dados:', c: [
+          'diagrama de árvore, listas, esquemas, desenhos, entre outros.',
+        ]},
+        { t: 'noções de combinatória:', c: [
+          'princípio multiplicativo e princípio aditivo;',
+          'fatorial;',
+          'arranjos;',
+          'permutação;',
+          'combinações;',
+          'binômio de Newton.',
+        ]},
+      ]},
+    ]},
+  ]
+},
+
+'his-3': {
+  label: 'História', area: 'humanas', years: [3],
+  blocks: [
+    { title: 'TEMPO E ESPAÇO', items: [
+      'A produção técnica e os impactos socioeconômicos em diferentes tempos e lugares;',
+      'As imagens e seus diferentes suportes: informação e comunicação política e social ao longo das temporalidades históricas;',
+      'As conexões históricas do trabalho diante do uso dos recursos naturais em diferentes modos de vida e hábitos culturais (indígenas, quilombolas e demais comunidades tradicionais).',
+    ]},
+    { title: 'TERRITÓRIO E FRONTEIRA', items: [
+      'Impérios e Estados Nacionais: as diversidades étnico-culturais;',
+      'Usos do espaço: processos civilizatórios, sedentarização e deslocamentos na configuração territorial em diferentes temporalidades;',
+      { t: 'Os valores construídos pela cultura juvenil:', c: [
+        'vanguardas culturais e as novas concepções políticas.',
+      ]},
+    ]},
+    { title: 'INDIVÍDUO, NATUREZA, SOCIEDADE, CULTURA E ÉTICA', items: [
+      { t: 'A relação entre o uso de recursos naturais e modelos socioeconômicos em diferentes sociedades para o bem-estar humano e equidade social:', c: [
+        'a Segunda Revolução Industrial no século XIX, o desenvolvimento da indústria química, elétrica, petróleo e aço;',
+        'a expansão do socialismo nos países do Leste Europeu, China e Cuba.',
+      ]},
+      { t: 'O contexto histórico da Declaração Universal dos Direitos Humanos:', c: [
+        { t: 'século XX — as rupturas na democracia: autoritarismo e totalitarismo e os tratados internacionais de direitos humanos desde o fim da Segunda Guerra Mundial;', c: [] },
+        'independência dos países da África, Ásia e Oriente Médio.',
+      ]},
+      'As revoluções na ciência: seus usos políticos, econômicos e sociais;',
+      'A Declaração Universal dos Direitos Humanos: seus princípios e trajetória histórica.',
+    ]},
+    { title: 'POLÍTICA E TRABALHO', items: [
+      'O trabalho em diferentes culturas: seus significados e sentidos no mundo globalizado;',
+      { t: 'As conexões históricas do trabalho diante do uso dos recursos naturais em diferentes modos de vida e hábitos culturais (indígenas, quilombolas e demais comunidades tradicionais):', c: [
+        'os habitantes nativos do Brasil, o domínio tecnológico da cerâmica, da pedra e as diversas formas de cultivo;',
+        'os indígenas, a relação de escambo e de escravidão na exploração das atividades econômicas europeias na extração do pau brasil, no cultivo da cana de açúcar e exploração das minas de ouro;',
+        'a resistência africana contra o trabalho escravo e a vida nos quilombos;',
+        'conquistas trabalhistas no Brasil na Era Vargas.',
+      ]},
+      { t: 'Desenvolvimento econômico e questões ambientais, o papel dos Estados nacionais:', c: [
+        'acordos, tratados, protocolos e convenções ambientais internacionais e a soberania nacional;',
+        'a globalização, as mudanças econômicas no comércio internacional;',
+        'os países e o desenvolvimento industrial recente: Brasil, Taiwan, Cingapura, Coreia do Sul, México, Hong Kong e China;',
+        'expansão do capitalismo e o aquecimento global.',
+      ]},
+      'Os desafios do agronegócio para o uso e gestão dos recursos naturais de forma sustentável;',
+      'Padrões de industrialização e os riscos ao meio ambiente em diferentes países do mundo;',
+      { t: 'A relação entre o uso de recursos naturais e modelos socioeconômicos em diferentes sociedades para o bem-estar humano e equidade social.', c: [] },
+      { t: 'A economia globalizada e seu impacto político e social:', c: [
+        'a formação dos blocos de poder e organismos internacionais regulatórios (FMI, OMC, Banco Central);',
+        'a Globalização e os aspectos econômicos, políticos e culturais;',
+        'blocos econômicos e políticos macrorregionais — América do Norte, Pacífico, Europa, América do Sul;',
+        'mudanças econômicas, produção mundializada, fluxo financeiro;',
+        'a desigualdade social, mundo interligado, impactos socioambientais, aumento do desemprego, concentração de riquezas.',
+      ]},
+      { t: 'O patriarcalismo, o coronelismo e o clientelismo na formação da sociedade brasileira:', c: [
+        { t: 'paternalismo, autoritarismo e populismo: conceituação, origens e características no Brasil e na América Latina.', c: [] },
+        'legados do patriarcalismo e da escravidão: as relações de poder e constituição de desigualdades (mito da democracia racial e tipos de racismo: injúria racial, racismo institucional e racismo estrutural);',
+      ]},
+      'Os direitos trabalhistas ao longo da história e suas perspectivas para sociedade contemporânea;',
+      'Doutrinas políticas em diversas temporalidades históricas e a construção da cidadania (liberalismo, neoliberalismo, socialismo, comunismo, anarquismo, socialdemocracia, conservadorismo e progressismo).',
+    ]},
+  ]
+},
+
+'geo-3': {
+  label: 'Geografia', area: 'humanas', years: [3],
+  blocks: [
+    { title: 'TEMPO E ESPAÇO', items: [
+      { t: 'Técnicas de cartografia e geotecnologias e seu uso em diferentes fenômenos espaciais:', c: [
+        'as desigualdades regionais e sociais expressas pelo acesso à Internet e redes sociais;',
+        'mapas temáticos e a análise de territórios;',
+        'espaço urbano e rural, conflitos e interesses socioeconômicos e socioambientais;',
+        'formação demográfica e social tradicionais e urbano industrial.',
+      ]},
+    ]},
+    { title: 'TERRITÓRIO E FRONTEIRA', items: [
+      { t: 'As correntes migratórias, a produção e circulação de mercadorias e suas marcas na paisagem, conflitos socioespaciais e a organização territorial:', c: [
+        'processos produtivos e sociedade produtiva;',
+        'dinâmicas demográficas e fluxos migratórios.',
+      ]},
+      'Fronteira, território e territorialidade: conceito político e jurídico e a noção social de ocupação do espaço;',
+      { t: 'Produção e ocupação do espaço por meio da análise e elaboração de mapas temáticos:', c: [
+        'abrangência escalar do fenômeno espacial: local, regional e global e as relações entre os princípios do raciocínio geográfico.',
+      ]},
+    ]},
+    { title: 'INDIVÍDUO, NATUREZA, SOCIEDADE, CULTURA E ÉTICA', items: [
+      'Segregação socioespacial e a violação dos Direitos Humanos;',
+      { t: 'Redes globais e fluxos financeiros e a relação com a vulnerabilidade social e as desigualdades territoriais:', c: [
+        'políticas públicas e planejamento de infraestrutura como promoção aos Direitos Humanos.',
+      ]},
+      'A geopolítica das técnicas e da ciência;',
+      { t: 'Culturas tradicionais:', c: [
+        'indígenas e quilombolas, territorialidade e direitos humanos.',
+      ]},
+      'Segregação socioespacial, vulnerabilidade socioambiental no mundo contemporâneo;',
+      { t: 'Impactos socioambientais relacionados aos diferentes padrões de consumo e a necessidade de adoção de hábitos sustentáveis:', c: [
+        'os conflitos espaciais na produção, distribuição e consumo: a divisão internacional e territorial do trabalho.',
+      ]},
+    ]},
+    { title: 'POLÍTICA E TRABALHO', items: [
+      { t: 'Impactos ambientais em áreas rurais e urbanas e a relação com a produção econômica:', c: [
+        'gestão de resíduos sólidos e sustentabilidade socioambiental.',
+      ]},
+      { t: 'A produção econômica e as legislações para uso, preservação, restauração, conservação dos recursos naturais:', c: [
+        'o papel dos órgãos internacionais nos acordos, tratados, protocolos e convenções voltadas às práticas sustentáveis em diferentes escalas.',
+      ]},
+      { t: 'Interpretação de mapas para a compreensão dos conceitos de fluxos materiais e imateriais:', c: [
+        'a distribuição espacial das juventudes, da riqueza, dos fluxos de informação, da população economicamente ativa, da transição demográfica e do envelhecimento da população;',
+        'A cidadania construída pela mobilidade.',
+      ]},
+      { t: 'O trabalho urbano e rural no mundo contemporâneo e os seus desafios ético-políticos:', c: [
+        'a mão de obra familiar, as parcerias, os assalariados temporários, o trabalho doméstico, autônomo e trabalho análogo ao escravo.',
+      ]},
+      { t: 'Desigualdades sociais no tempo e no espaço:', c: [
+        'países latino-americanos: os conflitos territoriais nas fronteiras e processos migratórios.',
+      ]},
+      'Ideias e concepções sobre a formação de territórios e fronteiras e suas implicações para a compreensão da cidadania e autonomia política;',
+      { t: 'Segregação socioespacial e a violação dos Direitos Humanos:', c: [
+        'redes globais e fluxos financeiros e a relação com a vulnerabilidade social e as desigualdades territoriais.',
+      ]},
+      'Países latino-americanos: os conflitos territoriais nas fronteiras e processos migratórios.',
+    ]},
+  ]
+},
+
+'fil-3': {
+  label: 'Filosofia', area: 'humanas', years: [3],
+  blocks: [
+    { title: 'TEMPO E ESPAÇO', items: [
+      'As origens da Filosofia e a atitude filosófica;',
+      'Os períodos e os campos de investigação da atividade filosófica;',
+      { t: 'O problema da origem da vida:', c: [
+        'o debate entre Mitologia Grega e os Pré-socráticos.',
+      ]},
+      'O significado do conceito de verdade;',
+      'Os diferentes tipos de conhecimento (científico, religioso, artístico, opinativo/senso comum);',
+      'Os conceitos de civilização, modernidade, "pós-modernidade" e suas contribuições para a compreensão das noções de civilização e barbárie;',
+      { t: 'As revoluções científicas e tecnológicas e seus impactos em diferentes contextos:', c: [
+        'na ética e na liberdade, na cultura e na religião.',
+      ]},
+      'O pensamento científico e os conhecimentos e valores tradicionais;',
+      'A afirmação do discurso científico e filosófico em oposição ao senso comum em diferentes contextos históricos;',
+      { t: 'A arte como forma de pensamento:', c: [
+        'do teatro grego ao cinema: reflexões e críticas sociais.',
+      ]},
+      { t: 'A produção de significados e a reflexão estética:', c: [
+        'os conceitos de bom e de belo.',
+      ]},
+    ]},
+    { title: 'A REFLEXÃO ÉTICA', items: [
+      { t: 'A reflexão ética: as diferenças conceituais, as visões de mundo entre filósofos de diferentes contextos e tempos históricos:', c: [
+        'Ética das Virtudes, Ética do Dever e Utilitarismo.',
+      ]},
+      { t: 'As exigências morais do homem moderno:', c: [
+        'as exigências morais da contemporaneidade e as implicações para os direitos humanos;',
+        'os regimes políticos e a "produção" da moral.',
+      ]},
+      { t: 'Os desafios da bioética frente ao desenvolvimento tecnológico e a globalização na dinâmica produtiva:', c: [
+        'relação paciente e profissionais da saúde;',
+        'o direito dos animais não-humanos.',
+      ]},
+      'A ética da responsabilidade frente aos desafios ambientais contemporâneos;',
+    ]},
+    { title: 'TERRITÓRIO E FRONTEIRA', items: [
+      { t: 'Os conceitos de civilização/barbárie, esclarecimento/obscurantismo como subsídios para a compreensão das relações de poder:', c: [
+        'a democracia antiga e a democracia moderna;',
+        'a cidadania, da Antiguidade aos dias de hoje.',
+      ]},
+      { t: 'O eu e o outro: a tensão permanente na afirmação da subjetividade em face da objetividade do mundo contemporâneo em seus diferentes aspectos:', c: [
+        { t: 'o indivíduo e a coletividade:', c: [
+          'desconstrução dos pré-juízos sobre o humano e a sociabilidade;',
+        ]},
+        'as concepções de infância, juventude e velhice na tradição filosófica e as suas problemáticas no Brasil contemporâneo.',
+      ]},
+      { t: 'A autonomia do indivíduo frente ao poder do Estado:', c: [
+        'as contribuições dos pensadores contratualistas.',
+      ]},
+    ]},
+    { title: 'INDIVÍDUO, NATUREZA, SOCIEDADE, CULTURA E ÉTICA', items: [
+      { t: 'A Escola de Frankfurt e os conceitos de indústria cultural, reprodutibilidade técnica e cultura de massa:', c: [
+        'a cultura de massa e cultura popular, a partir dos pensadores da tradição filosófica.',
+      ]},
+      'As políticas públicas para o meio ambiente e os impactos de anúncios e publicidade de estímulo ao consumo;',
+      'A bioética e sua função descritiva, normativa e protetora;',
+      { t: 'Os discursos éticos e políticos na identificação de posições não enunciadas:', c: [
+        'as possíveis falácias em um discurso.',
+      ]},
+      { t: 'Os fundamentos da ética para a constituição dos valores democráticos e solidários (igualdade e o respeito à diversidade, assim como a institucionalização dos Direitos Humanos):', c: [
+        { t: 'a ética global e a moral local: o debate sobre o universalismo e o pluralismo;', c: [] },
+        'narrativas e teses filosóficas sobre justiça social, solidariedade, igualdade e equidade em diferentes períodos históricos.',
+      ]},
+      { t: 'O desenvolvimento dos conceitos de alteridade e empatia:', c: [
+        { t: 'as contribuições da filosofia iluminista e contemporânea para o estabelecimento dos ideais de liberdade e Direitos Humanos;', c: [] },
+        'a compreensão da variedade de formas de vida e suas expressões valorativas.',
+      ]},
+      { t: 'Comportamentos opressores e modos de violência: pressupostos e implicações da opressão, da violência à indiferença em relação aos fenômenos sociais:', c: [
+        'o totalitarismo e o terrorismo como ameaça à democracia e aos Direitos Humanos.',
+      ]},
+      { t: 'O Empirismo, a ciência e a tecnologia:', c: [
+        'as Ciências Humanas e Sociais;',
+        'o mito da certeza e da neutralidade da ciência;',
+        'o conflito entre ciência e religião;',
+        'a ética e a bioética.',
+      ]},
+      { t: 'Identidade na produção filosófica: a Filosofia nos países africanos e latino-americanos:', c: [
+        { t: 'o conceito de necropolítica e biopolítica nas relações com o indivíduo;', c: [] },
+        'a desigualdade, a exclusão e os direitos: os distintos aspectos da sociabilidade e da cidadania.',
+      ]},
+      { t: 'A tradição filosófica na fundação dos princípios de justiça, igualdade, fraternidade e dignidade da condição humana:', c: [
+        'os Direitos Humanos: a saúde, a educação, o trabalho e a vida digna.',
+      ]},
+    ]},
+    { title: 'POLÍTICA E TRABALHO', items: [
+      { t: 'A ética da responsabilidade na sociedade tecnológica:', c: [
+        'formação do conceito de Infoética.',
+      ]},
+      { t: 'A produção de mercadorias, o consumo e o descarte de resíduos: o papel do Estado, da sociedade e do indivíduo:', c: [
+        { t: 'o processo de alienação e sua repercussão no trabalho, no consumo e no lazer;', c: [] },
+        'pensadores que desenvolveram a ideia de "alienação" na modernidade.',
+      ]},
+      'A renovação cultural, ética, valores e cultura juvenil;',
+      { t: 'Os valores associados à razão instrumental e o ideal de progresso contínuo da sociedade tecnológica:', c: [
+        'o entendimento das relações entre homem e natureza a partir de conceitos sobre modos de vida, consumo, cultura e produção.',
+      ]},
+      { t: 'As aproximações e distanciamentos entre os saberes científicos e decisões políticas: as contribuições da Revolução Científica:', c: [
+        'a relação sociedade-natureza e a preservação inteligente das condições para a manutenção da vida;',
+        'a formação do Positivismo.',
+      ]},
+      { t: 'A reflexão sobre a influência do pensamento científico na organização dos espaços contemporâneos, considerando a garantia dos Direitos Humanos e sociais:', c: [
+        'conceitos de Prisão e Emancipação.',
+      ]},
+      'O indivíduo, a coletividade e a solidariedade no centro da reflexão ética e política no pensamento filosófico dos séculos XIX e XX para a compreensão das dinâmicas socioeconômicas;',
+      'O liberalismo, anarquismo, socialismo e comunismo e seus ideais de liberdade e propriedade na relação com a produção e o consumo de tecnologia na sociedade contemporânea.',
+    ]},
+  ]
+},
+
+'soc-3': {
+  label: 'Sociologia', area: 'humanas', years: [3],
+  blocks: [
+    { title: 'TEMPO E ESPAÇO', items: [
+      'Padrões e normas em distintas sociedades: na cultura, no poder, na cidadania e no trabalho;',
+      { t: 'Discursos racista, etnocentrista e evolucionista e sua contraparte nas sociedades contemporâneas:', c: [
+        'a eugenia, o arianismo, o colonialismo, o relativismo cultural e o multiculturalismo.',
+      ]},
+      'Minorias nas sociedades do século XX: negros/índios e imigrantes/refugiados, entre outros;',
+      'Conceitos de aculturação e assimilação: nos grupos sociais, na Indústria Cultural, nos meios de comunicação e na memória local, regional, nacional e mundial;',
+      'Consequências do progresso para a sociedade: na tecnologia, no trabalho e no meio ambiente;',
+      { t: 'Diferentes formas de manipulação da informação na sociedade: imparcial, tendenciosa e ideológica:', c: [
+        'formação das sociedades modernas; conflitos sociais e minoritários nas sociedades do século XX;',
+        'os espaços material e virtual;',
+        'formas de estratificação social e aculturação nas sociedades local, regional, nacional e mundial.',
+      ]},
+    ]},
+    { title: 'TERRITÓRIO E FRONTEIRA', items: [
+      { t: 'Territórios, fronteiras e vazio nas sociedades contemporâneas:', c: [
+        'na política (estados, formas e sistemas de governo), na legislação (cidadania, direitos, deveres) e na cultura (nação, subsociedade).',
+      ]},
+      { t: 'Sobreposição de territorialidades étnico-culturais na constituição do espaço material e virtual:', c: [
+        'delimitação, governança e estabelecidos e outsiders.',
+      ]},
+      { t: 'O papel da juventude em contextos territoriais: central e periférico, material e virtual, profissional e acadêmico, cultural e político:', c: [
+        'segurança e equilíbrio social: o papel da juventude em contextos territoriais.',
+      ]},
+      'Grupos sociais com vínculo identitário e a conformação do espaço social: ocupação, domínio e integração socioespacial;',
+      { t: 'Relações socioespaciais entre grupos sociais antagônicos:', c: [
+        'na propriedade (urbanização), na economia (cooperativa), na política (sindicato, entidade de classe) e na cultura (subsociedade);',
+        { t: 'territórios e fronteiras sob a ótica da política, da legislação e da cultura.', c: [] },
+      ]},
+      { t: 'Processos de gentrificação em territorialidades urbanas:', c: [
+        'xenofobia, migrações, conflitos socioespaciais e territoriais.',
+      ]},
+      { t: 'Segurança e equilíbrio social:', c: [
+        { t: 'os fluxos migratórios contemporâneos e o papel de Estados e organismos internacionais no protecionismo, nas fronteiras culturais e nas tecnologias digitais:', c: [
+          'conformação do espaço social pelos grupos sociais;',
+          'conflitos socioespaciais e territoriais em áreas urbanas.',
+        ]},
+      ]},
+    ]},
+    { title: 'INDIVÍDUO, NATUREZA, SOCIEDADE, CULTURA E ÉTICA', items: [
+      'Papel dos indivíduos, das instituições, dos Estados e dos órgãos multilaterais no enfrentamento das questões socioambientais: políticas públicas, cidadania responsável, consumo responsável, impactos socioeconômicos e produção sustentável;',
+      { t: 'Desnaturalização das formas de desigualdade e intolerância para a promoção dos Direitos Humanos:', c: [
+        'laicidade, pluralismo e intolerância religiosa; preconceito e desigualdade na diversidade; mito da democracia racial e dos vários tipos de racismo.',
+      ]},
+      'Direitos Humanos e novas concepções de cidadania: cidadão global (direito de ser e estar em todos os lugares); combate à diferença e desigualdade;',
+      'Transformações da sociedade contemporânea: na ciência, tecnologia, produção e nos costumes;',
+      'Indústria Cultural, capitalismo e cidadania: influências e estímulos; padrões de consumo e consumismo; estereótipos e fetichização da mercadoria;',
+      'Cultura ideologia e identidade cultural no século XXI;',
+      'A ciência e a tecnologia nas transformações da sociedade contemporânea;',
+      'Direitos Humanos: liberdade, desigualdade, intolerância, formas e dimensão da violência.',
+    ]},
+    { title: 'POLÍTICA E TRABALHO', items: [
+      'Exploração da natureza: modos de vida, hábitos culturais, conservação ambiental (unidades de conservação, estação ecológica, reserva biológica, parque nacional, monumento natural, refúgio da vida silvestre) e interesses políticos e econômicos;',
+      { t: 'Produção de mercadorias: consumo, descarte, reciclagem (limites, durabilidade dos produtos, obsolescência programada):', c: [
+        'impactos ambientais e sociais (lixões, aterros sanitários, compostagem, cooperativas de catadores, vida no lixo).',
+      ]},
+      { t: 'Movimentos socioambientalistas e organismos nacionais e internacionais para o meio ambiente: fiscalização, ações e proposições:', c: [
+        'economia solidária, economia verde e equidade social.',
+      ]},
+      'Movimentos sociais urbanos e políticas públicas sociais;',
+      'Organização do Estado por sistemas políticos e de governo;',
+      'Os tratados internacionais de Paz;',
+      'Tratados internacionais: O Tratado de Vestfália e a Convenção de Viena;',
+      { t: 'Conceito e organização do Estado por meio de sistemas políticos:', c: [
+        'formas de governo (república, monarquia, socialismo, anarquismo, socialdemocracia, conservadorismo e progressismo);',
+        'regimes de governo (democrático, autoritário e totalitário) e sistemas de governo (presidencialismo e parlamentarismo).',
+      ]},
+      { t: 'As instituições político-partidárias e manifestações da cidadania:', c: [
+        'formas de autoritarismo nas sociedades brasileira e latino-americana.',
+      ]},
+      'Discursos racista, etnocentrista e evolucionista e sua contraparte nas sociedades contemporâneas: a eugenia, o arianismo, o colonialismo, o relativismo cultural e o multiculturalismo;',
+      'Conexão entre classe social, trabalho e emprego: salário, estratificação, desigualdade socioeconômica, políticas públicas de geração de emprego e renda;',
+      'Cooperativas na sociedade contemporânea: economia solidária, associativismo, economia verde e equidade social;',
+      'Relações de trabalho, mercado e evolução tecnológica na sociedade globalizada e no mundo neoliberal;',
+      'Trabalho no contexto da evolução tecnológica no mundo globalizado e neoliberal: vínculos informais, flexibilização de direitos trabalhistas;',
+      'Perfil socioeconômico da sociedade brasileira e sua relação com as classes sociais, o trabalho e o emprego;',
+      'Diferentes concepções de liberdade na sociedade: determinismo contemporâneo e empreendedorismo, autonomia, cooperação e solidariedade;',
+      'Formas e dimensões da violência: física, psicológica e simbólica;',
+      'Movimentos sociais urbanos: grupos marginalizados (indígenas, afrodescendentes, deficientes, entre outros), políticas públicas (redistributivas de renda, ações afirmativas, cotas).',
+    ]},
+  ]
+},
+
+}; // fim DATA
+
+// ═══════════ ESTRUTURA ═══════════
+const AREAS = [
+  { id: 'linguagens', label: 'Linguagens e suas Tecnologias', badge: 'badge-linguagens', color: '#7c4dff' },
+  { id: 'mat',        label: 'Matemática e suas Tecnologias',          badge: 'badge-mat',       color: '#00bcd4' },
+  { id: 'ciencias',   label: 'Ciências da Natureza e suas Tecnologias', badge: 'badge-ciencias',  color: '#4caf50' },
+  { id: 'humanas',    label: 'Ciências Humanas e Sociais Aplicadas',    badge: 'badge-humanas',   color: '#ff7043' },
+];
+
+let currentYear = 1;
+let currentSubject = null;
+
+function subsByYear(y) {
+  return Object.entries(DATA).filter(([,v]) => v.years.includes(y));
+}
+function areaOf(id) { return AREAS.find(a => a.id === DATA[id].area); }
+
+function setYear(y) {
+  currentYear = y;
+  currentSubject = null;
+  document.querySelectorAll('.year-btn').forEach((b,i) => b.classList.toggle('active', i+1===y));
+  renderSidebar(); renderContent();
+}
+
+function renderSidebar() {
+  const el = document.getElementById('sidebar');
+  const subs = subsByYear(currentYear);
+  let html = '';
+  AREAS.forEach(area => {
+    const as = subs.filter(([,v]) => v.area === area.id);
+    if (!as.length) return;
+    html += `<div class="area-section"><div class="area-label">${area.label}</div>`;
+    as.forEach(([id, sub]) => {
+      html += `<button class="subject-btn${currentSubject===id?' active':''}" onclick="selectSubject('${id}')">
+        <span class="subject-dot" style="background:${area.color}${currentSubject===id?`;box-shadow:0 0 7px ${area.color}`:''}"></span>
+        ${sub.label}
+      </button>`;
+    });
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+function selectSubject(id) {
+  currentSubject = id;
+  renderSidebar(); renderContent();
+}
+
+function renderContent() {
+  const el = document.getElementById('contentArea');
+  if (!currentSubject) {
+    el.innerHTML = `<div class="placeholder"><div class="placeholder-icon">📚</div><p class="placeholder-text">Selecione uma disciplina no menu lateral para exibir todos os Objetos de Conhecimento</p></div>`;
+    return;
+  }
+  const sub = DATA[currentSubject];
+  const area = areaOf(currentSubject);
+
+  const blocksHtml = sub.blocks.map((b, bi) => {
+    const body = buildList(b.items, 0);
+    return `<div class="block open" id="blk${bi}">
+      <div class="block-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="block-title">${b.title}</span>
+        <span class="block-toggle">▾</span>
+      </div>
+      <div class="block-body">${body}</div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="content-header">
+      <span class="content-area-badge ${area.badge}">${area.label}</span>
+      <div class="content-title">${sub.label}</div>
+      <span class="content-year-tag">
+        <span style="width:7px;height:7px;border-radius:50%;background:${area.color};display:inline-block"></span>
+        ${currentYear}ª Série &middot; Objetos de Conhecimento
+      </span>
+    </div>
+    <div class="content-blocks">${blocksHtml}</div>`;
+}
+
+renderSidebar();
+renderContent();
+</script>
+</body>
+</html>
